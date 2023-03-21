@@ -10,6 +10,9 @@ import (
 	"github.com/stepupdream/golang-support-tool/util"
 )
 
+// Setting sets the log output destination.
+//
+//goland:noinspection GoUnusedExportedFunction
 func Setting(filename string, isDebug bool) {
 	// Open file for write/read logging. (if not, generate one)
 	logfile, _ := os.OpenFile(filename, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
@@ -29,6 +32,7 @@ func Setting(filename string, isDebug bool) {
 	log.SetOutput(multiLogFile)
 }
 
+// Fatal outputs the specified message and exits the program.
 func Fatal(messages ...any) {
 	for _, message := range messages {
 		log.Printf("\x1b[31m%s\x1b[0m\n", message)
