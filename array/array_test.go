@@ -91,7 +91,7 @@ func TestNextArrayValue(t *testing.T) {
 		want string
 	}{
 		{
-			name: "test",
+			name: "test1",
 			args: args{
 				allValues: []string{"a", "b", "c", "d"},
 				nowValue:  "b",
@@ -203,7 +203,7 @@ func TestIntContains(t *testing.T) {
 		want bool
 	}{
 		{
-			name: "IntContains",
+			name: "IntContains1",
 			args: args{
 				slice:  []int{1, 2, 3, 4, 5},
 				target: 10,
@@ -211,7 +211,7 @@ func TestIntContains(t *testing.T) {
 			want: false,
 		},
 		{
-			name: "IntContains",
+			name: "IntContains2",
 			args: args{
 				slice:  []int{1, 2, 3, 4, 5},
 				target: 1,
@@ -238,14 +238,14 @@ func TestIsIntArrayUnique(t *testing.T) {
 		want bool
 	}{
 		{
-			name: "IsIntArrayUnique",
+			name: "IsIntArrayUnique1",
 			args: args{
 				args: []int{1, 2, 3, 4, 5},
 			},
 			want: true,
 		},
 		{
-			name: "IsIntArrayUnique",
+			name: "IsIntArrayUnique2",
 			args: args{
 				args: []int{1, 2, 3, 5, 5},
 			},
@@ -271,14 +271,14 @@ func TestIsStringArrayUnique(t *testing.T) {
 		want bool
 	}{
 		{
-			name: "IsStringArrayUnique",
+			name: "IsStringArrayUnique1",
 			args: args{
 				args: []string{"a", "b", "c", "d", "e"},
 			},
 			want: true,
 		},
 		{
-			name: "IsStringArrayUnique",
+			name: "IsStringArrayUnique2",
 			args: args{
 				args: []string{"a", "b", "c", "e", "e"},
 			},
@@ -296,21 +296,21 @@ func TestIsStringArrayUnique(t *testing.T) {
 
 func TestMergeMap(t *testing.T) {
 	type args struct {
-		m1 map[string]interface{}
-		m2 map[string]interface{}
+		m1 map[string]any
+		m2 map[string]any
 	}
 	tests := []struct {
 		name string
 		args args
-		want map[string]interface{}
+		want map[string]any
 	}{
 		{
 			name: "MergeMap",
 			args: args{
-				m1: map[string]interface{}{"a": "aaa", "b": "bbb"},
-				m2: map[string]interface{}{"c": "ccc"},
+				m1: map[string]any{"a": "aaa", "b": "bbb"},
+				m2: map[string]any{"c": "ccc"},
 			},
-			want: map[string]interface{}{"a": "aaa", "b": "bbb", "c": "ccc"},
+			want: map[string]any{"a": "aaa", "b": "bbb", "c": "ccc"},
 		},
 	}
 	for _, tt := range tests {
@@ -333,7 +333,7 @@ func TestStrContains(t *testing.T) {
 		want bool
 	}{
 		{
-			name: "StrContains",
+			name: "StrContains1",
 			args: args{
 				slice:  []string{"a", "b", "c", "d", "e"},
 				target: "g",
@@ -341,7 +341,7 @@ func TestStrContains(t *testing.T) {
 			want: false,
 		},
 		{
-			name: "StrContains",
+			name: "StrContains2",
 			args: args{
 				slice:  []string{"a", "b", "c", "d", "e"},
 				target: "a",
