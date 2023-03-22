@@ -1,9 +1,31 @@
 package directory
 
 import (
+	"os"
+	"path/filepath"
 	"reflect"
 	"testing"
 )
+
+// Use Test Main if you want to perform processing before and after the test.
+func TestMain(m *testing.M) {
+	// Create a test directory.
+	currentDir, _ := os.Getwd()
+	dirPath := filepath.Join(currentDir, "test")
+	_ = os.Mkdir(dirPath, 0777)
+	subDirs := []string{"1_0_0_0", "1_0_1_0"}
+	for _, subDir := range subDirs {
+		_ = os.Mkdir(filepath.Join(dirPath, subDir), 0777)
+	}
+
+	// Run the test.
+	code := m.Run()
+
+	// Remove the test directory.
+	_ = os.RemoveAll(dirPath)
+
+	os.Exit(code)
+}
 
 func TestExistMulti(t *testing.T) {
 	type args struct {

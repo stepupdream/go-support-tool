@@ -4,7 +4,7 @@ import (
 	"os"
 
 	"github.com/stepupdream/golang-support-tool/array"
-	"github.com/stepupdream/golang-support-tool/log"
+	"github.com/stepupdream/golang-support-tool/logger"
 )
 
 // Exist checks if the specified directory exists.
@@ -21,7 +21,7 @@ func Exist(path string) bool {
 func GetNames(path string, exclusionTexts []string) []string {
 	dir, err := os.Open(path)
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatal(err)
 	}
 	defer func(dir *os.File) {
 		err = dir.Close()
@@ -32,7 +32,7 @@ func GetNames(path string, exclusionTexts []string) []string {
 
 	names, err := dir.Readdirnames(-1)
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatal(err)
 	}
 
 	var result []string

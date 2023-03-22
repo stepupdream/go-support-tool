@@ -1,11 +1,13 @@
-//go:build linux
+//go:build !linux
 
-package log
+package logger
 
 import (
 	"io"
 	"log"
 	"os"
+
+	"github.com/stepupdream/golang-support-tool/console"
 )
 
 // Setting sets the log output destination.
@@ -35,5 +37,6 @@ func Fatal(messages ...any) {
 	for _, message := range messages {
 		log.Printf("\x1b[31m%s\x1b[0m\n", message)
 	}
+	console.KeyWait("Press any key:")
 	os.Exit(1)
 }

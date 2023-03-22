@@ -1,7 +1,7 @@
 package array
 
 import (
-	"github.com/stepupdream/golang-support-tool/log"
+	"github.com/stepupdream/golang-support-tool/logger"
 )
 
 // StrContains checks if the specified string exists in the array.
@@ -73,7 +73,7 @@ func IsStringArrayUnique(args []string) bool {
 // NextArrayValue returns the next value of the specified value in the array.
 func NextArrayValue(allValues []string, nowValue string) string {
 	if !StrContains(allValues, nowValue) {
-		log.Fatal("Incorrect value specified. The specified value does not exist in the array : " + nowValue)
+		logger.Fatal("Incorrect value specified. The specified value does not exist in the array : " + nowValue)
 	}
 
 	var nowKey int
@@ -122,7 +122,7 @@ func SliceString(all []string, start string, end string) []string {
 			result = append(result, value)
 		default:
 			if !StrContains(all, end) {
-				log.Fatal("The specified value could not be found : " + end)
+				logger.Fatal("The specified value could not be found : " + end)
 			}
 			if !isEnd {
 				result = append(result, value)

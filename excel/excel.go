@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 
 	"github.com/pkg/errors"
-	"github.com/stepupdream/golang-support-tool/log"
+	"github.com/stepupdream/golang-support-tool/logger"
 )
 
 // GetFilePathRecursive returns the path of the Excel file in the specified directory.
@@ -35,7 +35,7 @@ func GetFilePathRecursive(path string) []string {
 	})
 
 	if err != nil {
-		log.Fatal("Failed to get the path to the Excel file", err)
+		logger.Fatal("Failed to get the path to the Excel file", err)
 	}
 
 	return paths

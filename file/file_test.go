@@ -7,6 +7,24 @@ import (
 	"testing"
 )
 
+// Use Test Main if you want to perform processing before and after the test.
+func TestMain(m *testing.M) {
+	// Create a test directory.
+	currentDir, _ := os.Getwd()
+	dirPath := filepath.Join(currentDir, "test")
+	_ = os.Mkdir(dirPath, 0777)
+	file, _ := os.Create(filepath.Join(dirPath, "test.txt"))
+	_ = file.Close()
+
+	// Run the test.
+	code := m.Run()
+
+	// Remove the test directory.
+	_ = os.RemoveAll(dirPath)
+
+	os.Exit(code)
+}
+
 func TestBaseFileNames(t *testing.T) {
 	type args struct {
 		paths         []string

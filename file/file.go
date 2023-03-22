@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/stepupdream/golang-support-tool/directory"
-	"github.com/stepupdream/golang-support-tool/log"
+	"github.com/stepupdream/golang-support-tool/logger"
 )
 
 // Exists checks if the specified file exists.
@@ -28,7 +28,7 @@ func RecursiveFilePathInParent(filename string) string {
 
 		dirPath = filepath.Dir(dirPath)
 	}
-	log.Fatal("The specified file could not be found : " + filename)
+	logger.Fatal("The specified file could not be found : " + filename)
 
 	return ""
 }
@@ -59,22 +59,22 @@ func Copy(basedPath string, targetPath string) {
 	if !directory.Exist(filepath.Dir(targetPath)) {
 		err := os.MkdirAll(filepath.Dir(targetPath), 0755)
 		if err != nil {
-			log.Fatal(err)
+			logger.Fatal(err)
 		}
 	}
 
 	newFile, err := os.Create(targetPath)
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatal(err)
 	}
 
 	oldFile, err := os.Open(basedPath)
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatal(err)
 	}
 
 	_, err = io.Copy(newFile, oldFile)
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatal(err)
 	}
 }
