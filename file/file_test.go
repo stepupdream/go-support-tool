@@ -95,6 +95,8 @@ func TestExists(t *testing.T) {
 }
 
 func TestRecursiveFilePathInParent(t *testing.T) {
+	pathSeparator := string(os.PathSeparator)
+
 	type args struct {
 		filename string
 	}
@@ -109,7 +111,7 @@ func TestRecursiveFilePathInParent(t *testing.T) {
 			args: args{
 				filename: "README.md",
 			},
-			want: filepath.Dir(dirPath) + "/README.md",
+			want: filepath.Dir(dirPath) + pathSeparator + "README.md",
 		},
 	}
 	for _, tt := range tests {
