@@ -1,4 +1,4 @@
-package tabular
+package delimitedFormat
 
 import (
 	"os"

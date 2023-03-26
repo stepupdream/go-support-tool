@@ -6,8 +6,8 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/stepupdream/golang-support-tool/array"
+	"github.com/stepupdream/golang-support-tool/delimitedFormat"
 	supportFile "github.com/stepupdream/golang-support-tool/file"
-	"github.com/stepupdream/golang-support-tool/tabular"
 )
 
 // Key Make keys into structures to achieve multidimensional arrays.
@@ -25,7 +25,7 @@ func LoadMap(filePath string, filterNames []string) (map[Key]string, error) {
 		return make(map[Key]string), nil
 	}
 
-	rows, err := tabular.Load(filePath, true, true)
+	rows, err := delimitedFormat.Load(filePath, true, true)
 	if err != nil {
 		return nil, err
 	}
