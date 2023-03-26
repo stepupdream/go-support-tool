@@ -12,8 +12,8 @@ import (
 
 // Key Make keys into structures to achieve multidimensional arrays.
 type Key struct {
-	Id  int
-	Key string
+	id  int
+	key string
 }
 
 // LoadMap Load the specified file and convert it to a map.
@@ -86,8 +86,8 @@ func PluckId(valueMap map[Key]string) []int {
 	var ids []int
 
 	for mapKey := range valueMap {
-		if mapKey.Key == "id" {
-			ids = append(ids, mapKey.Id)
+		if mapKey.key == "id" {
+			ids = append(ids, mapKey.id)
 		}
 	}
 
@@ -103,7 +103,7 @@ func PluckKey(valueMap map[Key]string, key string) []string {
 	var values []string
 
 	for mapKey, value := range valueMap {
-		if mapKey.Key == key {
+		if mapKey.key == key {
 			values = append(values, value)
 		}
 	}

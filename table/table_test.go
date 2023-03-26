@@ -13,8 +13,12 @@ func TestMain(m *testing.M) {
 	currentDir, _ := os.Getwd()
 	dirPath := filepath.Join(currentDir, "test")
 	_ = os.Mkdir(dirPath, 0777)
-	fileNames := []string{"sample.csv"}
+	directoryNames := []string{dirPath, "test/sub"}
+	for _, name := range directoryNames {
+		_ = os.Mkdir(name, 0777)
+	}
 
+	fileNames := []string{"sample.csv", "sample1.csv", "sample2.csv", "sample3.csv", "sub/sample1.csv"}
 	for _, fileName := range fileNames {
 		f, _ := os.Create(filepath.Join(dirPath, fileName))
 		_, _ = f.WriteString("id,sample,#,level\n#1,aaa,2,13\n2,bbb,3,43\n")
@@ -48,9 +52,9 @@ func TestLoadMap(t *testing.T) {
 				filterNames: nil,
 			},
 			want: map[Key]string{
-				{Id: 2, Key: "id"}:     "2",
-				{Id: 2, Key: "sample"}: "bbb",
-				{Id: 2, Key: "level"}:  "43",
+				{id: 2, key: "id"}:     "2",
+				{id: 2, key: "sample"}: "bbb",
+				{id: 2, key: "level"}:  "43",
 			},
 			wantErr: false,
 		},
@@ -61,8 +65,8 @@ func TestLoadMap(t *testing.T) {
 				filterNames: []string{"id", "sample"},
 			},
 			want: map[Key]string{
-				{Id: 2, Key: "id"}:     "2",
-				{Id: 2, Key: "sample"}: "bbb",
+				{id: 2, key: "id"}:     "2",
+				{id: 2, key: "sample"}: "bbb",
 			},
 			wantErr: false,
 		},
@@ -94,9 +98,9 @@ func TestPluckId(t *testing.T) {
 			name: "PluckId1",
 			args: args{
 				valueMap: map[Key]string{
-					{Id: 1, Key: "id"}:     "1",
-					{Id: 1, Key: "sample"}: "aaa",
-					{Id: 1, Key: "level"}:  "50",
+					{id: 1, key: "id"}:     "1",
+					{id: 1, key: "sample"}: "aaa",
+					{id: 1, key: "level"}:  "50",
 				},
 			},
 			want: []int{1},
@@ -125,9 +129,9 @@ func TestPluckKey(t *testing.T) {
 			name: "PluckKey1",
 			args: args{
 				valueMap: map[Key]string{
-					{Id: 1, Key: "id"}:     "1",
-					{Id: 1, Key: "sample"}: "aaa",
-					{Id: 1, Key: "level"}:  "50",
+					{id: 1, key: "id"}:     "1",
+					{id: 1, key: "sample"}: "aaa",
+					{id: 1, key: "level"}:  "50",
 				},
 				key: "sample",
 			},

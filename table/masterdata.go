@@ -1,4 +1,4 @@
-package masterdata
+package table
 
 import (
 	"io/fs"
@@ -10,7 +10,6 @@ import (
 	"github.com/stepupdream/golang-support-tool/array"
 	"github.com/stepupdream/golang-support-tool/directory"
 	"github.com/stepupdream/golang-support-tool/file"
-	"github.com/stepupdream/golang-support-tool/table"
 )
 
 // MasterData is a struct used to represent tabular data.
@@ -18,13 +17,13 @@ type MasterData struct {
 	name        string
 	filterNames []string
 	extension   string
-	rows        map[table.Key]string
+	rows        map[Key]string
 }
 
 // NewTabular Create a new MasterData.
 //
 //goland:noinspection GoUnusedExportedFunction
-func NewTabular(extension string, rows map[table.Key]string) *MasterData {
+func NewTabular(extension string, rows map[Key]string) *MasterData {
 	return &MasterData{extension: extension, rows: rows}
 }
 
@@ -57,13 +56,13 @@ func (m *MasterData) LoadByDirectoryPath(directoryPath string) error {
 				continue
 			}
 
-			var editMap map[table.Key]string
-			editMap, err = table.LoadMap(filePath, m.filterNames)
+			var editMap map[Key]string
+			editMap, err = LoadMap(filePath, m.filterNames)
 			if err != nil {
 				return err
 			}
 
-			editIds := table.PluckId(editMap)
+			editIds := PluckId(editMap)
 			editIdsAll = append(editIdsAll, editIds...)
 
 			switch loadType {
@@ -86,7 +85,7 @@ func (m *MasterData) LoadByDirectoryPath(directoryPath string) error {
 	// Detect errors such as duplicate IDs for insert and update.
 	// Logically, it's okay to have duplicate insert and update ids,
 	// If it is duplicated, it is an error because it may be unintended input data.
-	// ex) when updating twice for the same id.
+	// [ex] when updating twice for the same id.
 	if !array.IsIntArrayUnique(editIdsAll) {
 		return errors.New("ID is not unique : " + directoryPath + " " + m.name)
 	}
@@ -122,25 +121,25 @@ func (m *MasterData) GetFilePathRecursive(path string) ([]string, error) {
 }
 
 // delete the specified key from the map.
-func (m *MasterData) delete(editMap map[table.Key]string, filePath string) error {
-	baseIds := table.PluckId(m.rows)
+func (m *MasterData) delete(editMap map[Key]string, filePath string) error {
+	baseIds := PluckId(m.rows)
 
 	for key := range editMap {
-		if key.Key == "id" {
-			if !array.IntContains(baseIds, key.Id) {
-				return errors.New("Attempted to delete a non-existent ID : id " + strconv.Itoa(key.Id) + " " + filePath)
+		if key.key == "id" {
+			if !array.IntContains(baseIds, key.id) {
+				return errors.New("Attempted to delete a non-existent ID : id " + strconv.Itoa(key.id) + " " + filePath)
 			}
 		}
-		delete(m.rows, table.Key{Id: key.Id, Key: key.Key})
+		delete(m.rows, Key{id: key.id, key: key.key})
 	}
 
 	return nil
 }
 
 // insert the specified key into the map.
-func (m *MasterData) insert(editMap map[table.Key]string, filePath string) error {
-	baseIds := table.PluckId(m.rows)
-	editIds := table.PluckId(editMap)
+func (m *MasterData) insert(editMap map[Key]string, filePath string) error {
+	baseIds := PluckId(m.rows)
+	editIds := PluckId(editMap)
 
 	for _, id := range editIds {
 		if array.IntContains(baseIds, id) {
@@ -149,16 +148,16 @@ func (m *MasterData) insert(editMap map[table.Key]string, filePath string) error
 	}
 
 	for mapKey, value := range editMap {
-		m.rows[table.Key{Id: mapKey.Id, Key: mapKey.Key}] = value
+		m.rows[Key{id: mapKey.id, key: mapKey.key}] = value
 	}
 
 	return nil
 }
 
 // update the specified key in the map.
-func (m *MasterData) update(editMap map[table.Key]string, filePath string) error {
-	baseIds := table.PluckId(m.rows)
-	editIds := table.PluckId(editMap)
+func (m *MasterData) update(editMap map[Key]string, filePath string) error {
+	baseIds := PluckId(m.rows)
+	editIds := PluckId(editMap)
 	for _, id := range editIds {
 		if !array.IntContains(baseIds, id) {
 			return errors.New("Tried to update a non-existent ID : id " + strconv.Itoa(id) + " " + filePath)
