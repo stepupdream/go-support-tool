@@ -1,7 +1,7 @@
 package array
 
 import (
-	"github.com/stepupdream/golang-support-tool/logger"
+	"github.com/pkg/errors"
 )
 
 // Contains checks if the specified string exists in the array.
@@ -45,9 +45,9 @@ func IsUnique[T comparable](args []T) bool {
 }
 
 // NextArrayValue returns the next value of the specified value in the array.
-func NextArrayValue(allValues []string, nowValue string) string {
+func NextArrayValue(allValues []string, nowValue string) (string, error) {
 	if !Contains(allValues, nowValue) {
-		logger.Fatal("Incorrect value specified. The specified value does not exist in the array : " + nowValue)
+		return "", errors.New("Incorrect value specified. The specified value does not exist in the array : " + nowValue)
 	}
 
 	var nowKey int
@@ -58,10 +58,10 @@ func NextArrayValue(allValues []string, nowValue string) string {
 	}
 
 	if len(allValues) < nowKey+2 {
-		return ""
+		return "", nil
 	}
 
-	return allValues[nowKey+1]
+	return allValues[nowKey+1], nil
 }
 
 // SliceString returns a slice of the specified array.
@@ -69,7 +69,7 @@ func NextArrayValue(allValues []string, nowValue string) string {
 // If the end value is not specified, the last value of the array is used.
 // If the end value is "next", the next value of the start value is used.
 // If the end value is "max", the last value of the array is used.
-func SliceString(all []string, start string, end string) []string {
+func SliceString(all []string, start string, end string) ([]string, error) {
 	var tmp []string
 	if start == "" {
 		start = all[0]
@@ -91,12 +91,12 @@ func SliceString(all []string, start string, end string) []string {
 	for _, value := range tmp {
 		switch end {
 		case "next":
-			return []string{value}
+			return []string{value}, nil
 		case "max":
 			result = append(result, value)
 		default:
 			if !Contains(all, end) {
-				logger.Fatal("The specified value could not be found : " + end)
+				return nil, errors.New("The specified value could not be found : " + end)
 			}
 			if !isEnd {
 				result = append(result, value)
@@ -108,7 +108,7 @@ func SliceString(all []string, start string, end string) []string {
 		}
 	}
 
-	return result
+	return result, nil
 }
 
 // Unique returns an array with duplicate values removed.

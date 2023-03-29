@@ -108,7 +108,7 @@ func TestGetNames(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := GetNames(tt.args.path, tt.args.exclusionTexts); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := GetNames(tt.args.path, tt.args.exclusionTexts); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("GetNames() = %v, want %v", got, tt.want)
 			}
 		})

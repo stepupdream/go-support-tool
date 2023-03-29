@@ -73,7 +73,7 @@ func TestSliceString(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := SliceString(tt.args.all, tt.args.start, tt.args.end); !reflect.DeepEqual(got, tt.want) {
+			if got, _ := SliceString(tt.args.all, tt.args.start, tt.args.end); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("SliceString() = %v, want %v", got, tt.want)
 			}
 		})
@@ -109,7 +109,7 @@ func TestNextArrayValue(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NextArrayValue(tt.args.allValues, tt.args.nowValue); got != tt.want {
+			if got, _ := NextArrayValue(tt.args.allValues, tt.args.nowValue); got != tt.want {
 				t.Errorf("NextArrayValue() = %v, want %v", got, tt.want)
 			}
 		})

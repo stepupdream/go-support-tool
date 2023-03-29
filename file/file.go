@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/pkg/errors"
 	"github.com/stepupdream/golang-support-tool/directory"
-	"github.com/stepupdream/golang-support-tool/logger"
 )
 
 // Exists checks if the specified file exists.
@@ -18,20 +18,19 @@ func Exists(path string) bool {
 
 // RecursiveFilePathInParent returns the path of the specified file in the parent directory.
 // If the specified file is not found, it will be searched recursively in the parent directory.
-func RecursiveFilePathInParent(filename string) string {
+func RecursiveFilePathInParent(filename string) (string, error) {
 	pathSeparator := string(os.PathSeparator)
 	dirPath, _ := os.Getwd()
 	for i := 0; i < 10; i++ {
 		findPath := dirPath + pathSeparator + filename
 		if Exists(findPath) {
-			return findPath
+			return findPath, nil
 		}
 
 		dirPath = filepath.Dir(dirPath)
 	}
-	logger.Fatal("The specified file could not be found : " + filename)
 
-	return ""
+	return "", errors.New("The specified file could not be found : " + filename)
 }
 
 // RemoveFileExtension removes the file extension.
@@ -61,26 +60,28 @@ func BaseFileNames(paths []string, withExtension bool) []string {
 // Copy copies the specified file.
 //
 //goland:noinspection GoUnusedExportedFunction
-func Copy(basedPath string, targetPath string) {
+func Copy(basedPath string, targetPath string) error {
 	if !directory.Exist(filepath.Dir(targetPath)) {
 		err := os.MkdirAll(filepath.Dir(targetPath), 0755)
 		if err != nil {
-			logger.Fatal(err)
+			return err
 		}
 	}
 
 	newFile, err := os.Create(targetPath)
 	if err != nil {
-		logger.Fatal(err)
+		return err
 	}
 
 	oldFile, err := os.Open(basedPath)
 	if err != nil {
-		logger.Fatal(err)
+		return err
 	}
 
 	_, err = io.Copy(newFile, oldFile)
 	if err != nil {
-		logger.Fatal(err)
+		return err
 	}
+
+	return nil
 }
