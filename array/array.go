@@ -4,21 +4,10 @@ import (
 	"github.com/stepupdream/golang-support-tool/logger"
 )
 
-// StrContains checks if the specified string exists in the array.
-func StrContains(slice []string, target string) bool {
-	for _, value := range slice {
-		if value == target {
-			return true
-		}
-	}
-
-	return false
-}
-
-// IntContains checks if the specified integer exists in the array.
-func IntContains(slice []int, target int) bool {
-	for _, value := range slice {
-		if value == target {
+// Contains checks if the specified value exists in the slice.
+func Contains[T comparable](args []T, target T) bool {
+	for _, arg := range args {
+		if arg == target {
 			return true
 		}
 	}
@@ -40,24 +29,9 @@ func MergeMap(m1, m2 map[string]any) map[string]any {
 	return ans
 }
 
-// IsIntArrayUnique checks if the specified array contains duplicate values.
-func IsIntArrayUnique(args []int) bool {
-	encountered := map[int]bool{}
-	count := len(args)
-	for i := 0; i < count; i++ {
-		if !encountered[args[i]] {
-			encountered[args[i]] = true
-		} else {
-			return false
-		}
-	}
-
-	return true
-}
-
-// IsStringArrayUnique checks if the specified array contains duplicate values.
-func IsStringArrayUnique(args []string) bool {
-	encountered := map[string]bool{}
+// IsUnique checks if the specified array contains duplicate values.
+func IsUnique[T comparable](args []T) bool {
+	encountered := map[T]bool{}
 	count := len(args)
 	for i := 0; i < count; i++ {
 		if !encountered[args[i]] {
@@ -72,7 +46,7 @@ func IsStringArrayUnique(args []string) bool {
 
 // NextArrayValue returns the next value of the specified value in the array.
 func NextArrayValue(allValues []string, nowValue string) string {
-	if !StrContains(allValues, nowValue) {
+	if !Contains(allValues, nowValue) {
 		logger.Fatal("Incorrect value specified. The specified value does not exist in the array : " + nowValue)
 	}
 
@@ -95,7 +69,7 @@ func NextArrayValue(allValues []string, nowValue string) string {
 // If the end value is not specified, the last value of the array is used.
 // If the end value is "next", the next value of the start value is used.
 // If the end value is "max", the last value of the array is used.
-func SliceString(all []string, start string, end string) []string {
+func SliceString(all []string, start string, end string) (result []string) {
 	var tmp []string
 	if start == "" {
 		start = all[0]
@@ -112,7 +86,6 @@ func SliceString(all []string, start string, end string) []string {
 		}
 	}
 
-	var result []string
 	isEnd := false
 	for _, value := range tmp {
 		switch end {
@@ -121,7 +94,7 @@ func SliceString(all []string, start string, end string) []string {
 		case "max":
 			result = append(result, value)
 		default:
-			if !StrContains(all, end) {
+			if !Contains(all, end) {
 				logger.Fatal("The specified value could not be found : " + end)
 			}
 			if !isEnd {
@@ -137,43 +110,25 @@ func SliceString(all []string, start string, end string) []string {
 	return result
 }
 
-// StringUnique returns an array with duplicate values removed.
-func StringUnique(values []string) []string {
-	tmp := make(map[string]bool)
-	var result []string
+// Unique returns an array with duplicate values removed.
+func Unique[T comparable](values []T) (r []T) {
+	tmp := make(map[T]bool)
 
 	for _, value := range values {
 		if !tmp[value] {
 			tmp[value] = true
-			result = append(result, value)
+			r = append(r, value)
 		}
 	}
 
-	return result
-}
-
-// IntUnique returns an array with duplicate values removed.
-func IntUnique(values []int) []int {
-	tmp := make(map[int]bool)
-	var result []int
-
-	for _, value := range values {
-		if !tmp[value] {
-			tmp[value] = true
-			result = append(result, value)
-		}
-	}
-
-	return result
+	return r
 }
 
 // PluckStringByIndex returns an array of the specified index of the specified array.
-func PluckStringByIndex(rows [][]string, index int) []string {
-	var result []string
-
+func PluckStringByIndex(rows [][]string, index int) (r []string) {
 	for _, row := range rows {
-		result = append(result, row[index])
+		r = append(r, row[index])
 	}
 
-	return result
+	return r
 }

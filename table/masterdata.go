@@ -86,7 +86,7 @@ func (m *MasterData) LoadByDirectoryPath(directoryPath string) error {
 	// Logically, it's okay to have duplicate insert and update ids,
 	// If it is duplicated, it is an error because it may be unintended input data.
 	// [ex] when updating twice for the same id.
-	if !array.IsIntArrayUnique(editIdsAll) {
+	if !array.IsUnique(editIdsAll) {
 		return errors.New("ID is not unique : " + directoryPath + " " + m.name)
 	}
 
@@ -126,7 +126,7 @@ func (m *MasterData) delete(editMap map[Key]string, filePath string) error {
 
 	for key := range editMap {
 		if key.key == "id" {
-			if !array.IntContains(baseIds, key.id) {
+			if !array.Contains(baseIds, key.id) {
 				return errors.New("Attempted to delete a non-existent ID : id " + strconv.Itoa(key.id) + " " + filePath)
 			}
 		}
@@ -142,7 +142,7 @@ func (m *MasterData) insert(editMap map[Key]string, filePath string) error {
 	editIds := PluckId(editMap)
 
 	for _, id := range editIds {
-		if array.IntContains(baseIds, id) {
+		if array.Contains(baseIds, id) {
 			return errors.New("Tried to do an insert on an existing ID : id " + strconv.Itoa(id) + " " + filePath)
 		}
 	}
@@ -159,7 +159,7 @@ func (m *MasterData) update(editMap map[Key]string, filePath string) error {
 	baseIds := PluckId(m.rows)
 	editIds := PluckId(editMap)
 	for _, id := range editIds {
-		if !array.IntContains(baseIds, id) {
+		if !array.Contains(baseIds, id) {
 			return errors.New("Tried to update a non-existent ID : id " + strconv.Itoa(id) + " " + filePath)
 		}
 	}
