@@ -44,17 +44,16 @@ func BaseFileName(path string) string {
 }
 
 // BaseFileNames returns the file name of the specified path.
-func BaseFileNames(paths []string, withExtension bool) []string {
-	var names []string
+func BaseFileNames(paths []string, withExtension bool) (r []string) {
 	for _, name := range paths {
 		if withExtension {
-			names = append(names, filepath.Base(name))
+			r = append(r, filepath.Base(name))
 		} else {
-			names = append(names, filepath.Base(RemoveFileExtension(name)))
+			r = append(r, filepath.Base(RemoveFileExtension(name)))
 		}
 	}
 
-	return names
+	return r
 }
 
 // Copy copies the specified file.

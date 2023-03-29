@@ -65,7 +65,7 @@ func hasBOM(reader *bufio.Reader) bool {
 
 // exclusionColumn Exclude the column with the exclusion mark.
 // If the exclusion mark is not set, return the original data.
-func exclusionColumn(rows [][]string, isExclusion bool) [][]string {
+func exclusionColumn(rows [][]string, isExclusion bool) (newRows [][]string) {
 	var disableColumnIndexes []int
 	for index, value := range rows[0] {
 		if isExclusion && value == "#" {
@@ -73,7 +73,6 @@ func exclusionColumn(rows [][]string, isExclusion bool) [][]string {
 		}
 	}
 
-	var newRows [][]string
 	for _, row := range rows {
 		var newRow []string
 		for index, value := range row {
