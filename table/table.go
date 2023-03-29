@@ -6,7 +6,7 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/stepupdream/golang-support-tool/array"
-	"github.com/stepupdream/golang-support-tool/delimitedFormat"
+	"github.com/stepupdream/golang-support-tool/delimited"
 	supportFile "github.com/stepupdream/golang-support-tool/file"
 )
 
@@ -25,7 +25,7 @@ func LoadMap(filePath string, filterNames []string) (map[Key]string, error) {
 		return make(map[Key]string), nil
 	}
 
-	rows, err := delimitedFormat.Load(filePath, true, true)
+	rows, err := delimited.Load(filePath, true, true)
 	if err != nil {
 		return nil, err
 	}
