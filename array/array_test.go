@@ -126,7 +126,7 @@ func TestStringUnique(t *testing.T) {
 		want []string
 	}{
 		{
-			name: "StringUnique",
+			name: "Unique",
 			args: args{[]string{"a", "e", "b", "e", "d"}},
 			want: []string{"a", "e", "b", "d"},
 		},
@@ -150,7 +150,7 @@ func TestIntUnique(t *testing.T) {
 		want []int
 	}{
 		{
-			name: "IntUnique",
+			name: "Unique",
 			args: args{[]int{1, 1, 2, 2, 3, 5}},
 			want: []int{1, 2, 3, 5},
 		},

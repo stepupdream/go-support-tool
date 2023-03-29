@@ -43,6 +43,13 @@ func TestExistMulti(t *testing.T) {
 			},
 			want: true,
 		},
+		{
+			name: "ExistMult2",
+			args: args{
+				parentPaths: []string{"../directory", "../blank"},
+			},
+			want: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
