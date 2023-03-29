@@ -18,7 +18,7 @@ func Exist(path string) bool {
 func GetNames(path string, exclusionTexts []string) (result []string, err error) {
 	dir, err := os.Open(path)
 	if err != nil {
-		return result, err
+		return nil, err
 	}
 	defer func() {
 		closeErr := dir.Close()
@@ -29,7 +29,7 @@ func GetNames(path string, exclusionTexts []string) (result []string, err error)
 
 	names, err := dir.Readdirnames(-1)
 	if err != nil {
-		return result, err
+		return nil, err
 	}
 
 	for _, name := range names {
@@ -42,29 +42,29 @@ func GetNames(path string, exclusionTexts []string) (result []string, err error)
 }
 
 // ExistMulti checks if any of the specified directories exist.
-func ExistMulti(parentPaths []string) (isExist bool) {
+func ExistMulti(parentPaths []string) (r bool) {
 	for _, path := range parentPaths {
 		if Exist(path) {
-			isExist = true
+			r = true
 		}
 	}
 
-	return isExist
+	return r
 }
 
 // MaxFileName returns the file name with the largest value in the specified directory.
-func MaxFileName(directoryPath string) (maxName string) {
+func MaxFileName(directoryPath string) (r string) {
 	dirEntries, _ := os.ReadDir(directoryPath)
 	for _, dirEntry := range dirEntries {
-		if maxName == "" {
-			maxName = dirEntry.Name()
+		if r == "" {
+			r = dirEntry.Name()
 			continue
 		}
 
-		if maxName < dirEntry.Name() {
-			maxName = dirEntry.Name()
+		if r < dirEntry.Name() {
+			r = dirEntry.Name()
 		}
 	}
 
-	return maxName
+	return r
 }

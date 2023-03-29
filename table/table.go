@@ -82,43 +82,38 @@ func convertMap(rows [][]string, filterColumnNumbers []int, filepath string) (ma
 // PluckId Pluck the ID from the map.
 //
 //goland:noinspection GoUnusedExportedFunction
-func PluckId(valueMap map[Key]string) []int {
-	var ids []int
-
+func PluckId(valueMap map[Key]string) (r []int) {
 	for mapKey := range valueMap {
 		if mapKey.key == "id" {
-			ids = append(ids, mapKey.id)
+			r = append(r, mapKey.id)
 		}
 	}
 
-	sort.Ints(ids)
+	sort.Ints(r)
 
-	return ids
+	return r
 }
 
 // PluckKey Pluck the value of the specified key from the map.
 //
 //goland:noinspection GoUnusedExportedFunction
-func PluckKey(valueMap map[Key]string, key string) []string {
-	var values []string
-
+func PluckKey(valueMap map[Key]string, key string) (r []string) {
 	for mapKey, value := range valueMap {
 		if mapKey.key == key {
-			values = append(values, value)
+			r = append(r, value)
 		}
 	}
 
-	return values
+	return r
 }
 
 // filterColumnNumbers Get the column number of the column to filter.
-func filterColumnNumbers(filterRows []string, filterColumnNames []string) []int {
-	var columnNumbers []int
+func filterColumnNumbers(filterRows []string, filterColumnNames []string) (r []int) {
 	for columnNumber, columnName := range filterRows {
 		if array.Contains(filterColumnNames, columnName) {
-			columnNumbers = append(columnNumbers, columnNumber)
+			r = append(r, columnNumber)
 		}
 	}
 
-	return columnNumbers
+	return r
 }
