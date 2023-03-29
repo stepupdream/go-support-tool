@@ -84,7 +84,7 @@ func TestLoadByDirectoryPath(t *testing.T) {
 				rows:        map[Key]string{},
 			},
 			args: args{
-				directoryPath: "./sample/pattern1",
+				directoryPath: "./testdata/pattern1",
 			},
 			want: map[Key]string{
 				{id: 2, key: "id"}:       "2",
@@ -109,7 +109,7 @@ func TestLoadByDirectoryPath(t *testing.T) {
 				},
 			},
 			args: args{
-				directoryPath: "./sample/pattern1",
+				directoryPath: "./testdata/pattern1",
 			},
 			want: map[Key]string{
 				{id: 1, key: "id"}:       "1",
@@ -143,7 +143,7 @@ func TestLoadByDirectoryPath(t *testing.T) {
 				},
 			},
 			args: args{
-				directoryPath: "./sample/pattern2",
+				directoryPath: "./testdata/pattern2",
 			},
 			want: map[Key]string{
 				{id: 1, key: "id"}:       "1",
@@ -177,7 +177,7 @@ func TestLoadByDirectoryPath(t *testing.T) {
 				},
 			},
 			args: args{
-				directoryPath: "./sample/pattern3",
+				directoryPath: "./testdata/pattern3",
 			},
 			want: map[Key]string{
 				{id: 1, key: "id"}:       "1",
@@ -208,7 +208,7 @@ func TestLoadByDirectoryPath(t *testing.T) {
 				},
 			},
 			args: args{
-				directoryPath: "./sample/pattern4",
+				directoryPath: "./testdata/pattern4",
 			},
 			want: map[Key]string{
 				{id: 1, key: "id"}:       "1",
@@ -232,7 +232,7 @@ func TestLoadByDirectoryPath(t *testing.T) {
 				rows:        map[Key]string{},
 			},
 			args: args{
-				directoryPath: "./sample/pattern5",
+				directoryPath: "./testdata/pattern5",
 			},
 			want:    map[Key]string{},
 			wantErr: true,
@@ -250,7 +250,7 @@ func TestLoadByDirectoryPath(t *testing.T) {
 				},
 			},
 			args: args{
-				directoryPath: "./sample/pattern6",
+				directoryPath: "./testdata/pattern6",
 			},
 			want:    map[Key]string{},
 			wantErr: true,
@@ -268,7 +268,7 @@ func TestLoadByDirectoryPath(t *testing.T) {
 				},
 			},
 			args: args{
-				directoryPath: "./sample/pattern7",
+				directoryPath: "./testdata/pattern7",
 			},
 			want:    map[Key]string{},
 			wantErr: true,
@@ -286,7 +286,7 @@ func TestLoadByDirectoryPath(t *testing.T) {
 				},
 			},
 			args: args{
-				directoryPath: "./sample/pattern8",
+				directoryPath: "./testdata/pattern8",
 			},
 			want:    map[Key]string{},
 			wantErr: true,
@@ -304,7 +304,7 @@ func TestLoadByDirectoryPath(t *testing.T) {
 				},
 			},
 			args: args{
-				directoryPath: "./sample/pattern9",
+				directoryPath: "./testdata/pattern9",
 			},
 			want:    map[Key]string{},
 			wantErr: true,
@@ -322,7 +322,7 @@ func TestLoadByDirectoryPath(t *testing.T) {
 				},
 			},
 			args: args{
-				directoryPath: "./sample/pattern10",
+				directoryPath: "./testdata/pattern10",
 			},
 			want:    map[Key]string{},
 			wantErr: true,
