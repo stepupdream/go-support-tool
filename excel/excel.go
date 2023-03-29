@@ -11,9 +11,7 @@ import (
 // GetFilePathRecursive returns the path of the Excel file in the specified directory.
 //
 //goland:noinspection GoUnusedExportedFunction
-func GetFilePathRecursive(path string) []string {
-	var paths []string
-
+func GetFilePathRecursive(path string) (paths []string) {
 	// Recursively retrieve directories and files. (use WalkDir since Walk is now deprecated)
 	err := filepath.WalkDir(path, func(path string, info fs.DirEntry, err error) error {
 		if err != nil {
