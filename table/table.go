@@ -56,7 +56,7 @@ func convertMap(rows [][]string, filterColumnNumbers []int, filepath string) (ma
 				continue
 			}
 
-			if len(filterColumnNumbers) != 0 && !array.IntContains(filterColumnNumbers, columnNumber) {
+			if len(filterColumnNumbers) != 0 && !array.Contains(filterColumnNumbers, columnNumber) {
 				continue
 			}
 
@@ -115,7 +115,7 @@ func PluckKey(valueMap map[Key]string, key string) []string {
 func filterColumnNumbers(filterRows []string, filterColumnNames []string) []int {
 	var columnNumbers []int
 	for columnNumber, columnName := range filterRows {
-		if array.StrContains(filterColumnNames, columnName) {
+		if array.Contains(filterColumnNames, columnName) {
 			columnNumbers = append(columnNumbers, columnNumber)
 		}
 	}

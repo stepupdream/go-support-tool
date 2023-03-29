@@ -37,7 +37,7 @@ func GetNames(path string, exclusionTexts []string) []string {
 
 	var result []string
 	for _, name := range names {
-		if !array.StrContains(exclusionTexts, name) {
+		if !array.Contains(exclusionTexts, name) {
 			result = append(result, name)
 		}
 	}

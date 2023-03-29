@@ -133,8 +133,8 @@ func TestStringUnique(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := StringUnique(tt.args.values); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("StringUnique() = %v, want %v", got, tt.want)
+			if got := Unique(tt.args.values); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Unique() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -157,8 +157,8 @@ func TestIntUnique(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := IntUnique(tt.args.values); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("IntUnique() = %v, want %v", got, tt.want)
+			if got := Unique(tt.args.values); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Unique() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -221,8 +221,8 @@ func TestIntContains(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := IntContains(tt.args.slice, tt.args.target); got != tt.want {
-				t.Errorf("IntContains() = %v, want %v", got, tt.want)
+			if got := Contains(tt.args.slice, tt.args.target); got != tt.want {
+				t.Errorf("Contains() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -254,8 +254,8 @@ func TestIsIntArrayUnique(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := IsIntArrayUnique(tt.args.args); got != tt.want {
-				t.Errorf("IsIntArrayUnique() = %v, want %v", got, tt.want)
+			if got := IsUnique(tt.args.args); got != tt.want {
+				t.Errorf("IsUnique() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -287,8 +287,8 @@ func TestIsStringArrayUnique(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := IsStringArrayUnique(tt.args.args); got != tt.want {
-				t.Errorf("IsStringArrayUnique() = %v, want %v", got, tt.want)
+			if got := IsUnique(tt.args.args); got != tt.want {
+				t.Errorf("IsUnique() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -351,8 +351,8 @@ func TestStrContains(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := StrContains(tt.args.slice, tt.args.target); got != tt.want {
-				t.Errorf("StrContains() = %v, want %v", got, tt.want)
+			if got := Contains(tt.args.slice, tt.args.target); got != tt.want {
+				t.Errorf("Contains() = %v, want %v", got, tt.want)
 			}
 		})
 	}

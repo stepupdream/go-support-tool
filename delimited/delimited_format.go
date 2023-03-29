@@ -77,7 +77,7 @@ func exclusionColumn(rows [][]string, isExclusion bool) [][]string {
 	for _, row := range rows {
 		var newRow []string
 		for index, value := range row {
-			if !array.IntContains(disableColumnIndexes, index) {
+			if !array.Contains(disableColumnIndexes, index) {
 				newRow = append(newRow, value)
 			}
 		}
