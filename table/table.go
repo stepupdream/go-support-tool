@@ -5,9 +5,9 @@ import (
 	"strconv"
 
 	"github.com/pkg/errors"
-	"github.com/stepupdream/golang-support-tool/array"
-	"github.com/stepupdream/golang-support-tool/delimited"
-	supportFile "github.com/stepupdream/golang-support-tool/file"
+	"github.com/stepupdream/go-support-tool/array"
+	"github.com/stepupdream/go-support-tool/delimited"
+	supportFile "github.com/stepupdream/go-support-tool/file"
 )
 
 // Key Make keys into structures to achieve multidimensional arrays.
