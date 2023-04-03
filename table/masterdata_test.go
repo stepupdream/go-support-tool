@@ -32,9 +32,9 @@ func TestGetFilePathRecursive(t *testing.T) {
 				rows:        nil,
 			},
 			args: args{
-				path: "./test",
+				path: "./testdata/sample",
 			},
-			want:    []string{"test/sample.csv", "test/sample1.csv", "test/sample2.csv", "test/sample3.csv", "test/sub/sample1.csv"},
+			want:    []string{"testdata/sample/sample.csv", "testdata/sample/sample1.csv", "testdata/sample/sample2.csv", "testdata/sample/sample3.csv", "testdata/sample/sub/sample1.csv"},
 			wantErr: false,
 		},
 	}

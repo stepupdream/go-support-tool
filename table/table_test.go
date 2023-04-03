@@ -1,38 +1,9 @@
 package table
 
 import (
-	"os"
-	"path/filepath"
 	"reflect"
 	"testing"
 )
-
-// Use Test Main if you want to perform processing before and after the test.
-func TestMain(m *testing.M) {
-	// Create a test directory.
-	currentDir, _ := os.Getwd()
-	dirPath := filepath.Join(currentDir, "test")
-	_ = os.Mkdir(dirPath, 0777)
-	directoryNames := []string{dirPath, "test/sub"}
-	for _, name := range directoryNames {
-		_ = os.Mkdir(name, 0777)
-	}
-
-	fileNames := []string{"sample.csv", "sample1.csv", "sample2.csv", "sample3.csv", "sub/sample1.csv"}
-	for _, fileName := range fileNames {
-		f, _ := os.Create(filepath.Join(dirPath, fileName))
-		_, _ = f.WriteString("id,sample,#,level\n#1,aaa,2,13\n2,bbb,3,43\n")
-		_ = f.Close()
-	}
-
-	// Run the test.
-	code := m.Run()
-
-	// Remove the test directory.
-	_ = os.RemoveAll(dirPath)
-
-	os.Exit(code)
-}
 
 func TestLoadMap(t *testing.T) {
 	type args struct {
@@ -48,7 +19,7 @@ func TestLoadMap(t *testing.T) {
 		{
 			name: "LoadMap1",
 			args: args{
-				filePath:    "./test/sample.csv",
+				filePath:    "./testdata/sample.csv",
 				filterNames: nil,
 			},
 			want: map[Key]string{
@@ -61,7 +32,7 @@ func TestLoadMap(t *testing.T) {
 		{
 			name: "LoadMap2",
 			args: args{
-				filePath:    "./test/sample.csv",
+				filePath:    "./testdata/sample.csv",
 				filterNames: []string{"id", "sample"},
 			},
 			want: map[Key]string{

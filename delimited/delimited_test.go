@@ -2,37 +2,18 @@ package delimited
 
 import (
 	"os"
-	"path/filepath"
 	"reflect"
 	"testing"
 )
 
 // Use Test Main if you want to perform processing before and after the test.
 func TestMain(m *testing.M) {
-	// Create a test directory.
-	currentDir, _ := os.Getwd()
-	dirPath := filepath.Join(currentDir, "test")
-	_ = os.Mkdir(dirPath, 0777)
-	fileNames := []string{"sample.csv"}
-
-	for _, fileName := range fileNames {
-		f, _ := os.Create(filepath.Join(dirPath, fileName))
-		_, _ = f.WriteString("id,sample,#,level\n#1,aaa,2,13\n2,bbb,3,43\n")
-		_ = f.Close()
-	}
-
-	fileNames = []string{"sample.tsv"}
-	for _, fileName := range fileNames {
-		f, _ := os.Create(filepath.Join(dirPath, fileName))
-		_, _ = f.WriteString("id	sample	#	level\n#1	ccc	2	13\n2	ddd	3	43")
-		_ = f.Close()
-	}
-
 	// Run the test.
 	code := m.Run()
 
-	// Remove the test directory.
-	_ = os.RemoveAll(dirPath)
+	// Remove the test file.
+	currentDir, _ := os.Getwd()
+	_ = os.RemoveAll(currentDir + "/testdata/sample10.csv")
 
 	os.Exit(code)
 }
@@ -50,7 +31,7 @@ func TestCreateNewFile(t *testing.T) {
 		{
 			name: "CreateNewFile1",
 			args: args{
-				path: "./test/sample10.csv",
+				path: "./testdata/sample10.csv",
 				rows: [][]string{
 					{"id", "sample", "#", "level"},
 					{"#1", "aaa", "2", "13"},
@@ -65,11 +46,11 @@ func TestCreateNewFile(t *testing.T) {
 			if err := CreateNewFile(tt.args.path, tt.args.rows); (err != nil) != tt.wantErr {
 				t.Errorf("CreateNewFile() error = %v, wantErr %v", err, tt.wantErr)
 			}
-			expected, err := os.ReadFile("./test/sample.csv")
+			expected, err := os.ReadFile("./testdata/sample.csv")
 			if err != nil {
 				t.Fatal(err)
 			}
-			actual, err := os.ReadFile("./test/sample10.csv")
+			actual, err := os.ReadFile("./testdata/sample10.csv")
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -98,7 +79,7 @@ func TestLoad(t *testing.T) {
 		{
 			name: "Load1",
 			args: args{
-				targetPath:        "./test/sample.csv",
+				targetPath:        "./testdata/sample.csv",
 				isRowExclusion:    false,
 				isColumnExclusion: false,
 			},
@@ -112,7 +93,7 @@ func TestLoad(t *testing.T) {
 		{
 			name: "Load2",
 			args: args{
-				targetPath:        "./test/sample.csv",
+				targetPath:        "./testdata/sample.csv",
 				isRowExclusion:    true,
 				isColumnExclusion: false,
 			},
@@ -125,7 +106,7 @@ func TestLoad(t *testing.T) {
 		{
 			name: "Load3",
 			args: args{
-				targetPath:        "./test/sample.csv",
+				targetPath:        "./testdata/sample.csv",
 				isRowExclusion:    true,
 				isColumnExclusion: true,
 			},
@@ -138,7 +119,7 @@ func TestLoad(t *testing.T) {
 		{
 			name: "Load4",
 			args: args{
-				targetPath:        "./test/sample.tsv",
+				targetPath:        "./testdata/sample.tsv",
 				isRowExclusion:    true,
 				isColumnExclusion: true,
 			},
