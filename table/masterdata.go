@@ -7,9 +7,9 @@ import (
 	"strconv"
 
 	"github.com/pkg/errors"
-	"github.com/stepupdream/golang-support-tool/array"
-	"github.com/stepupdream/golang-support-tool/directory"
-	"github.com/stepupdream/golang-support-tool/file"
+	"github.com/stepupdream/go-support-tool/array"
+	"github.com/stepupdream/go-support-tool/directory"
+	"github.com/stepupdream/go-support-tool/file"
 )
 
 // MasterData is a struct used to represent tabular data.

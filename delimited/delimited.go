@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/stepupdream/golang-support-tool/array"
+	"github.com/stepupdream/go-support-tool/array"
 )
 
 // Load the specified file.

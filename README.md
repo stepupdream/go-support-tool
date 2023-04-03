@@ -1,2 +1,3 @@
-# golang-support-tool
-golang support tool
+# go-support-tool
+
+go support tool

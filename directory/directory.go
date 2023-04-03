@@ -3,7 +3,7 @@ package directory
 import (
 	"os"
 
-	"github.com/stepupdream/golang-support-tool/array"
+	"github.com/stepupdream/go-support-tool/array"
 )
 
 // Exist checks if the specified directory exists.

@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/stepupdream/golang-support-tool/console"
+	"github.com/stepupdream/go-support-tool/console"
 )
 
 // Setting sets the log output destination.

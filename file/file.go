@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/pkg/errors"
-	"github.com/stepupdream/golang-support-tool/directory"
+	"github.com/stepupdream/go-support-tool/directory"
 )
 
 // Exists checks if the specified file exists.
