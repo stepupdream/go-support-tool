@@ -1,4 +1,4 @@
-module github.com/stepupdream/golang-support-tool
+module github.com/stepupdream/go-support-tool
 
 go 1.20
 
