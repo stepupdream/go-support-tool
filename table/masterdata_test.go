@@ -2,11 +2,14 @@ package table
 
 import (
 	"fmt"
+	"os"
 	"reflect"
 	"testing"
 )
 
 func TestGetFilePathRecursive(t *testing.T) {
+	separator := string(os.PathSeparator)
+
 	type fields struct {
 		name        string
 		filterNames []string
@@ -32,9 +35,15 @@ func TestGetFilePathRecursive(t *testing.T) {
 				rows:        nil,
 			},
 			args: args{
-				path: "./testdata/sample",
+				path: "." + separator + "testdata" + separator + "sample",
 			},
-			want:    []string{"testdata/sample/sample.csv", "testdata/sample/sample1.csv", "testdata/sample/sample2.csv", "testdata/sample/sample3.csv", "testdata/sample/sub/sample1.csv"},
+			want: []string{
+				"testdata" + separator + "sample" + separator + "sample.csv",
+				"testdata" + separator + "sample" + separator + "sample1.csv",
+				"testdata" + separator + "sample" + separator + "sample2.csv",
+				"testdata" + separator + "sample" + separator + "sample3.csv",
+				"testdata" + separator + "sample" + separator + "sub" + separator + "sample1.csv",
+			},
 			wantErr: false,
 		},
 	}

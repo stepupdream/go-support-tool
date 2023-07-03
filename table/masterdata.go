@@ -46,7 +46,7 @@ func (m *MasterData) LoadByDirectoryPath(directoryPath string) error {
 			continue
 		}
 
-		filePaths, err := m.GetFilePathRecursive(loadTypePath)
+		filePaths, err := directory.GetFilePathRecursive(loadTypePath, []string{m.extension})
 		if err != nil {
 			return err
 		}

@@ -1,7 +1,10 @@
 package directory
 
 import (
+	"github.com/pkg/errors"
+	"io/fs"
 	"os"
+	"path/filepath"
 
 	"github.com/stepupdream/go-support-tool/array"
 )
@@ -67,4 +70,31 @@ func MaxFileName(directoryPath string) (r string) {
 	}
 
 	return r
+}
+
+// GetFilePathRecursive returns the path of the Excel file in the specified directory.
+func GetFilePathRecursive(path string, extensions []string) ([]string, error) {
+	var paths []string
+
+	// Recursively retrieve directories and files. (use WalkDir since Walk is now deprecated)
+	err := filepath.WalkDir(path, func(path string, info fs.DirEntry, err error) error {
+		if err != nil {
+			return errors.Wrap(err, "failed filepath.WalkDir")
+		}
+		if info.IsDir() {
+			return nil
+		}
+		extension := filepath.Ext(path)
+		if len(extensions) > 0 && !array.Contains(extensions, extension) {
+			return nil
+		}
+		paths = append(paths, path)
+		return nil
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return paths, nil
 }

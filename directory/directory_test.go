@@ -1,6 +1,7 @@
 package directory
 
 import (
+	"os"
 	"reflect"
 	"testing"
 )
@@ -128,6 +129,67 @@ func TestExist(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := Exist(tt.args.path); got != tt.want {
 				t.Errorf("Exist() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestGetFilePathRecursive(t *testing.T) {
+	pathSeparator := string(os.PathSeparator)
+	type args struct {
+		path       string
+		extensions []string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    []string
+		wantErr bool
+	}{
+		{
+			name: "TestGetFilePathRecursive1",
+			args: args{
+				path:       ".." + pathSeparator + "directory" + pathSeparator + "testdata",
+				extensions: []string{".csv"},
+			},
+			want:    nil,
+			wantErr: false,
+		},
+		{
+			name: "TestGetFilePathRecursive2",
+			args: args{
+				path:       ".." + pathSeparator + "directory" + pathSeparator + "testdata",
+				extensions: []string{},
+			},
+			want: []string{
+				".." + pathSeparator + "directory" + pathSeparator + "testdata" + pathSeparator + "1_0_0_0" + pathSeparator + ".gitkeep",
+				".." + pathSeparator + "directory" + pathSeparator + "testdata" + pathSeparator + "1_0_0_0" + pathSeparator + "test.txt",
+				".." + pathSeparator + "directory" + pathSeparator + "testdata" + pathSeparator + "1_0_1_0" + pathSeparator + ".gitkeep",
+			},
+			wantErr: false,
+		},
+		{
+			name: "TestGetFilePathRecursive3",
+			args: args{
+				path:       ".." + pathSeparator + "directory" + pathSeparator + "testdata",
+				extensions: []string{".gitkeep"},
+			},
+			want: []string{
+				".." + pathSeparator + "directory" + pathSeparator + "testdata" + pathSeparator + "1_0_0_0" + pathSeparator + ".gitkeep",
+				".." + pathSeparator + "directory" + pathSeparator + "testdata" + pathSeparator + "1_0_1_0" + pathSeparator + ".gitkeep",
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := GetFilePathRecursive(tt.args.path, tt.args.extensions)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetFilePathRecursive() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetFilePathRecursive() got = %v, want %v", got, tt.want)
 			}
 		})
 	}
