@@ -72,7 +72,7 @@ func MaxFileName(directoryPath string) (r string) {
 	return r
 }
 
-// GetFilePathRecursive returns the path of the Excel file in the specified directory.
+// GetFilePathRecursive returns the path of the file in the specified directory.
 func GetFilePathRecursive(path string, extensions []string) ([]string, error) {
 	var paths []string
 
