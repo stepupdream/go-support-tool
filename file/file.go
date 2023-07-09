@@ -71,6 +71,12 @@ func Copy(basedPath string, targetPath string) error {
 	if err != nil {
 		return err
 	}
+	defer func() {
+		closeErr := newFile.Close()
+		if err == nil {
+			err = closeErr
+		}
+	}()
 
 	oldFile, err := os.Open(basedPath)
 	if err != nil {
