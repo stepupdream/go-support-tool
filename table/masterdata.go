@@ -23,8 +23,13 @@ type MasterData struct {
 // NewTabular Create a new MasterData.
 //
 //goland:noinspection GoUnusedExportedFunction
-func NewTabular(extension string, rows map[Key]string) *MasterData {
-	return &MasterData{extension: extension, rows: rows}
+func NewTabular(name string, filterNames []string, extension string, rows map[Key]string) *MasterData {
+	return &MasterData{
+		name:        name,
+		filterNames: filterNames,
+		extension:   extension,
+		rows:        rows,
+	}
 }
 
 // LoadByDirectoryPath Load the specified directory path.
@@ -33,9 +38,8 @@ func (m *MasterData) LoadByDirectoryPath(directoryPath string) error {
 	// Avoid immediately UPDATING an INSET record within the same version (since it is an unintended update).
 	loadTypes := []string{"delete", "update", "insert"}
 	pathSeparator := string(os.PathSeparator)
-	if !directory.Exist(directoryPath+pathSeparator+loadTypes[0]+pathSeparator) &&
-		!directory.Exist(directoryPath+pathSeparator+loadTypes[1]+pathSeparator) &&
-		!directory.Exist(directoryPath+pathSeparator+loadTypes[2]+pathSeparator) {
+
+	if !directoryExists(directoryPath, loadTypes) {
 		return errors.New("Neither insert/update/delete directories were found : " + directoryPath)
 	}
 
@@ -67,17 +71,15 @@ func (m *MasterData) LoadByDirectoryPath(directoryPath string) error {
 
 			switch loadType {
 			case "insert":
-				if err = m.insert(editMap, filePath); err != nil {
-					return err
-				}
+				err = m.insert(editMap, filePath)
 			case "update":
-				if err = m.update(editMap, filePath); err != nil {
-					return err
-				}
+				err = m.update(editMap, filePath)
 			case "delete":
-				if err = m.delete(editMap, filePath); err != nil {
-					return err
-				}
+				err = m.delete(editMap, filePath)
+			}
+
+			if err != nil {
+				return err
 			}
 		}
 	}
@@ -91,6 +93,16 @@ func (m *MasterData) LoadByDirectoryPath(directoryPath string) error {
 	}
 
 	return nil
+}
+
+func directoryExists(directoryPath string, loadTypes []string) bool {
+	pathSeparator := string(os.PathSeparator)
+	for _, loadType := range loadTypes {
+		if directory.Exist(directoryPath + pathSeparator + loadType + pathSeparator) {
+			return true
+		}
+	}
+	return false
 }
 
 // GetFilePathRecursive Get the file path of the specified extension recursively.
