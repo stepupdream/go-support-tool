@@ -5,6 +5,7 @@ import (
 	"encoding/csv"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/stepupdream/go-support-tool/array"
 )
@@ -68,7 +69,7 @@ func hasBOM(reader *bufio.Reader) bool {
 func exclusionColumn(rows [][]string, isExclusion bool) (newRows [][]string) {
 	var disableColumnIndexes []int
 	for index, value := range rows[0] {
-		if isExclusion && value == "#" {
+		if isExclusion && strings.Contains(value, "#") {
 			disableColumnIndexes = append(disableColumnIndexes, index)
 		}
 	}
