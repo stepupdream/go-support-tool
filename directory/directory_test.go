@@ -216,7 +216,6 @@ func TestCreate(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
-		_ = os.RemoveAll(tt.args.targetDirectoryPath)
 		t.Run(tt.name, func(t *testing.T) {
 			if err := Create(tt.args.targetDirectoryPath, tt.args.isGitkeep); (err != nil) != tt.wantErr {
 				t.Errorf("Create() error = %v, wantErr %v", err, tt.wantErr)
@@ -225,5 +224,6 @@ func TestCreate(t *testing.T) {
 		if _, err := os.Stat("../directory/testdata/test/.gitkeep"); err != nil {
 			t.Errorf("Create() error")
 		}
+		_ = os.RemoveAll(tt.args.targetDirectoryPath)
 	}
 }
