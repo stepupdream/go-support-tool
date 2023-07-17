@@ -17,7 +17,7 @@ type MasterData struct {
 	name        string
 	filterNames []string
 	extension   string
-	rows        map[Key]string
+	Rows        map[Key]string
 }
 
 // NewTabular Create a new MasterData.
@@ -28,7 +28,7 @@ func NewTabular(name string, filterNames []string, extension string, rows map[Ke
 		name:        name,
 		filterNames: filterNames,
 		extension:   extension,
-		rows:        rows,
+		Rows:        rows,
 	}
 }
 
@@ -134,7 +134,7 @@ func (m *MasterData) GetFilePathRecursive(path string) ([]string, error) {
 
 // delete the specified key from the map.
 func (m *MasterData) delete(editMap map[Key]string, filePath string) error {
-	baseIds := PluckId(m.rows)
+	baseIds := PluckId(m.Rows)
 
 	for key := range editMap {
 		if key.key == "id" {
@@ -142,7 +142,7 @@ func (m *MasterData) delete(editMap map[Key]string, filePath string) error {
 				return errors.New("Attempted to delete a non-existent ID : id " + strconv.Itoa(key.id) + " " + filePath)
 			}
 		}
-		delete(m.rows, Key{id: key.id, key: key.key})
+		delete(m.Rows, Key{id: key.id, key: key.key})
 	}
 
 	return nil
@@ -150,7 +150,7 @@ func (m *MasterData) delete(editMap map[Key]string, filePath string) error {
 
 // insert the specified key into the map.
 func (m *MasterData) insert(editMap map[Key]string, filePath string) error {
-	baseIds := PluckId(m.rows)
+	baseIds := PluckId(m.Rows)
 	editIds := PluckId(editMap)
 
 	for _, id := range editIds {
@@ -160,7 +160,7 @@ func (m *MasterData) insert(editMap map[Key]string, filePath string) error {
 	}
 
 	for mapKey, value := range editMap {
-		m.rows[Key{id: mapKey.id, key: mapKey.key}] = value
+		m.Rows[Key{id: mapKey.id, key: mapKey.key}] = value
 	}
 
 	return nil
@@ -168,7 +168,7 @@ func (m *MasterData) insert(editMap map[Key]string, filePath string) error {
 
 // update the specified key in the map.
 func (m *MasterData) update(editMap map[Key]string, filePath string) error {
-	baseIds := PluckId(m.rows)
+	baseIds := PluckId(m.Rows)
 	editIds := PluckId(editMap)
 	for _, id := range editIds {
 		if !array.Contains(baseIds, id) {

@@ -53,7 +53,7 @@ func TestGetFilePathRecursive(t *testing.T) {
 				name:        tt.fields.name,
 				filterNames: tt.fields.filterNames,
 				extension:   tt.fields.extension,
-				rows:        tt.fields.rows,
+				Rows:        tt.fields.rows,
 			}
 			got, err := m.GetFilePathRecursive(tt.args.path)
 			if (err != nil) != tt.wantErr {
@@ -343,7 +343,7 @@ func TestLoadByDirectoryPath(t *testing.T) {
 				name:        tt.fields.name,
 				filterNames: tt.fields.filterNames,
 				extension:   tt.fields.extension,
-				rows:        tt.fields.rows,
+				Rows:        tt.fields.rows,
 			}
 			err := m.LoadByDirectoryPath(tt.args.directoryPath)
 			if (err != nil) != tt.wantErr {
@@ -352,8 +352,8 @@ func TestLoadByDirectoryPath(t *testing.T) {
 			}
 			if tt.wantErr {
 				fmt.Println(err)
-			} else if !reflect.DeepEqual(m.rows, tt.want) {
-				t.Errorf("GetFilePathRecursive() got = %v, want %v", m.rows, tt.want)
+			} else if !reflect.DeepEqual(m.Rows, tt.want) {
+				t.Errorf("GetFilePathRecursive() got = %v, want %v", m.Rows, tt.want)
 			}
 		})
 	}
