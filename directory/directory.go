@@ -98,3 +98,30 @@ func GetFilePathRecursive(path string, extensions []string) ([]string, error) {
 
 	return paths, nil
 }
+
+func Create(targetDirectoryPath string, isGitkeep bool) error {
+	if !Exist(targetDirectoryPath) {
+		err := os.MkdirAll(targetDirectoryPath, 0755)
+		if err != nil {
+			return err
+		}
+	}
+
+	if !isGitkeep {
+		return nil
+	}
+
+	pathSeparator := string(os.PathSeparator)
+	newFile, err := os.Create(targetDirectoryPath + pathSeparator + ".gitkeep")
+	if err != nil {
+		return err
+	}
+	defer func() {
+		closeErr := newFile.Close()
+		if err == nil {
+			err = closeErr
+		}
+	}()
+
+	return nil
+}

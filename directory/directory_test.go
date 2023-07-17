@@ -194,3 +194,36 @@ func TestGetFilePathRecursive(t *testing.T) {
 		})
 	}
 }
+
+func TestCreate(t *testing.T) {
+	pathSeparator := string(os.PathSeparator)
+	type args struct {
+		targetDirectoryPath string
+		isGitkeep           bool
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "Create1",
+			args: args{
+				targetDirectoryPath: ".." + pathSeparator + "directory" + pathSeparator + "testdata" + pathSeparator + "test",
+				isGitkeep:           true,
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		_ = os.RemoveAll(tt.args.targetDirectoryPath)
+		t.Run(tt.name, func(t *testing.T) {
+			if err := Create(tt.args.targetDirectoryPath, tt.args.isGitkeep); (err != nil) != tt.wantErr {
+				t.Errorf("Create() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+		if _, err := os.Stat("../directory/testdata/test/.gitkeep"); err != nil {
+			t.Errorf("Create() error")
+		}
+	}
+}
