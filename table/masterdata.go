@@ -23,7 +23,9 @@ type MasterData struct {
 // NewTabular Create a new MasterData.
 //
 //goland:noinspection GoUnusedExportedFunction
-func NewTabular(name string, filterNames []string, extension string, rows map[Key]string) *MasterData {
+func NewTabular(name string, filterNames []string, extensionName string, rows map[Key]string) *MasterData {
+	extension := "." + extensionName
+
 	return &MasterData{
 		name:        name,
 		filterNames: filterNames,
