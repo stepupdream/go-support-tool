@@ -2,6 +2,7 @@ package directory
 
 import (
 	"github.com/pkg/errors"
+	"io"
 	"io/fs"
 	"os"
 	"path/filepath"
@@ -97,6 +98,32 @@ func GetFilePathRecursive(path string, extensions []string) ([]string, error) {
 	}
 
 	return paths, nil
+}
+
+// GetFilePath returns the path of the file in the specified directory.
+func GetFilePath(directoryPath string, targetPath string) (string, error) {
+	var filePath string
+
+	// Recursively retrieve directories and files. (use WalkDir since Walk is now deprecated)
+	err := filepath.WalkDir(directoryPath, func(path string, info fs.DirEntry, err error) error {
+		if err != nil {
+			return errors.Wrap(err, "failed filepath.WalkDir")
+		}
+		if info.IsDir() {
+			return nil
+		}
+		if filepath.Base(path) == targetPath {
+			filePath = path
+			return io.EOF // return io.EOF to stop the WalkDir function
+		}
+		return nil
+	})
+
+	if err != nil && !errors.Is(err, io.EOF) {
+		return "", err
+	}
+
+	return filePath, nil
 }
 
 func Create(targetDirectoryPath string, isGitkeep bool) error {

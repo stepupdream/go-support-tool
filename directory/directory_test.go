@@ -227,3 +227,39 @@ func TestCreate(t *testing.T) {
 		_ = os.RemoveAll(tt.args.targetDirectoryPath)
 	}
 }
+
+func TestGetFilePath(t *testing.T) {
+	pathSeparator := string(os.PathSeparator)
+	type args struct {
+		directoryPath string
+		targetPath    string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    string
+		wantErr bool
+	}{
+		{
+			name: "GetFilePath",
+			args: args{
+				directoryPath: ".." + pathSeparator + "directory" + pathSeparator + "testdata",
+				targetPath:    "test.txt",
+			},
+			want:    ".." + pathSeparator + "directory" + pathSeparator + "testdata" + pathSeparator + "1_0_0_0" + pathSeparator + "test.txt",
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := GetFilePath(tt.args.directoryPath, tt.args.targetPath)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetFilePath() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if got != tt.want {
+				t.Errorf("GetFilePath() got = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
