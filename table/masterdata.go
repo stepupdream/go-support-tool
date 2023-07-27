@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/stepupdream/go-support-tool/array"
@@ -14,23 +15,25 @@ import (
 
 // MasterData is a struct used to represent tabular data.
 type MasterData struct {
-	name        string
-	filterNames []string
-	extension   string
-	Rows        map[Key]string
+	name           string
+	isPartialMatch bool
+	filterNames    []string
+	extension      string
+	Rows           map[Key]string
 }
 
 // NewTabular Create a new MasterData.
 //
 //goland:noinspection GoUnusedExportedFunction
-func NewTabular(name string, filterNames []string, extensionName string, rows map[Key]string) *MasterData {
+func NewTabular(name string, filterNames []string, extensionName string, rows map[Key]string, isPartialMatch bool) *MasterData {
 	extension := "." + extensionName
 
 	return &MasterData{
-		name:        name,
-		filterNames: filterNames,
-		extension:   extension,
-		Rows:        rows,
+		name:           name,
+		isPartialMatch: isPartialMatch,
+		filterNames:    filterNames,
+		extension:      extension,
+		Rows:           rows,
 	}
 }
 
@@ -58,7 +61,7 @@ func (m *MasterData) LoadByDirectoryPath(directoryPath string) error {
 		}
 
 		for _, filePath := range filePaths {
-			if m.name != file.BaseFileName(filePath) {
+			if (m.isPartialMatch && strings.HasPrefix(file.BaseFileName(filePath), m.name)) || m.name != file.BaseFileName(filePath) {
 				continue
 			}
 
