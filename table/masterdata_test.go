@@ -69,28 +69,31 @@ func TestGetFilePathRecursive(t *testing.T) {
 
 func TestLoadByDirectoryPath(t *testing.T) {
 	type fields struct {
-		name        string
-		filterNames []string
-		extension   string
-		rows        map[Key]string
+		name           string
+		isPartialMatch bool
+		filterNames    []string
+		extension      string
+		rows           map[Key]string
 	}
 	type args struct {
 		directoryPath string
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		want    map[Key]string
-		wantErr bool
+		name           string
+		isPartialMatch bool
+		fields         fields
+		args           args
+		want           map[Key]string
+		wantErr        bool
 	}{
 		{
 			name: "LoadByDirectoryPath1-1",
 			fields: fields{
-				name:        "samples",
-				filterNames: nil,
-				extension:   ".csv",
-				rows:        map[Key]string{},
+				name:           "samples",
+				isPartialMatch: false,
+				filterNames:    nil,
+				extension:      ".csv",
+				rows:           map[Key]string{},
 			},
 			args: args{
 				directoryPath: "./testdata/pattern1",
@@ -108,9 +111,10 @@ func TestLoadByDirectoryPath(t *testing.T) {
 		{
 			name: "LoadByDirectoryPath1-2",
 			fields: fields{
-				name:        "samples",
-				filterNames: nil,
-				extension:   ".csv",
+				name:           "samples",
+				isPartialMatch: false,
+				filterNames:    nil,
+				extension:      ".csv",
 				rows: map[Key]string{
 					{id: 1, key: "id"}:     "1",
 					{id: 1, key: "sample"}: "aaa",
@@ -136,9 +140,10 @@ func TestLoadByDirectoryPath(t *testing.T) {
 		{
 			name: "LoadByDirectoryPath2",
 			fields: fields{
-				name:        "samples",
-				filterNames: nil,
-				extension:   ".csv",
+				name:           "samples",
+				isPartialMatch: false,
+				filterNames:    nil,
+				extension:      ".csv",
 				rows: map[Key]string{
 					{id: 1, key: "id"}:       "1",
 					{id: 1, key: "sample"}:   "aaa",
@@ -170,9 +175,10 @@ func TestLoadByDirectoryPath(t *testing.T) {
 		{
 			name: "LoadByDirectoryPath3",
 			fields: fields{
-				name:        "samples",
-				filterNames: nil,
-				extension:   ".csv",
+				name:           "samples",
+				isPartialMatch: false,
+				filterNames:    nil,
+				extension:      ".csv",
 				rows: map[Key]string{
 					{id: 1, key: "id"}:       "1",
 					{id: 1, key: "sample"}:   "aaa",
@@ -201,9 +207,10 @@ func TestLoadByDirectoryPath(t *testing.T) {
 		{
 			name: "LoadByDirectoryPath4",
 			fields: fields{
-				name:        "samples",
-				filterNames: nil,
-				extension:   ".csv",
+				name:           "samples",
+				isPartialMatch: false,
+				filterNames:    nil,
+				extension:      ".csv",
 				rows: map[Key]string{
 					{id: 1, key: "id"}:       "1",
 					{id: 1, key: "sample"}:   "aaa",
@@ -235,10 +242,11 @@ func TestLoadByDirectoryPath(t *testing.T) {
 		{
 			name: "LoadByDirectoryPath5",
 			fields: fields{
-				name:        "samples",
-				filterNames: nil,
-				extension:   ".csv",
-				rows:        map[Key]string{},
+				name:           "samples",
+				isPartialMatch: false,
+				filterNames:    nil,
+				extension:      ".csv",
+				rows:           map[Key]string{},
 			},
 			args: args{
 				directoryPath: "./testdata/pattern5",
@@ -267,9 +275,10 @@ func TestLoadByDirectoryPath(t *testing.T) {
 		{
 			name: "LoadByDirectoryPath7",
 			fields: fields{
-				name:        "samples",
-				filterNames: nil,
-				extension:   ".csv",
+				name:           "samples",
+				isPartialMatch: false,
+				filterNames:    nil,
+				extension:      ".csv",
 				rows: map[Key]string{
 					{id: 1, key: "id"}:     "1",
 					{id: 1, key: "sample"}: "aaa",
@@ -285,9 +294,10 @@ func TestLoadByDirectoryPath(t *testing.T) {
 		{
 			name: "LoadByDirectoryPath8",
 			fields: fields{
-				name:        "samples",
-				filterNames: nil,
-				extension:   ".csv",
+				name:           "samples",
+				isPartialMatch: false,
+				filterNames:    nil,
+				extension:      ".csv",
 				rows: map[Key]string{
 					{id: 1, key: "id"}:     "1",
 					{id: 1, key: "sample"}: "aaa",
@@ -303,9 +313,10 @@ func TestLoadByDirectoryPath(t *testing.T) {
 		{
 			name: "LoadByDirectoryPath9",
 			fields: fields{
-				name:        "samples",
-				filterNames: nil,
-				extension:   ".csv",
+				name:           "samples",
+				isPartialMatch: false,
+				filterNames:    nil,
+				extension:      ".csv",
 				rows: map[Key]string{
 					{id: 1, key: "id"}:     "1",
 					{id: 1, key: "sample"}: "aaa",
@@ -321,9 +332,10 @@ func TestLoadByDirectoryPath(t *testing.T) {
 		{
 			name: "LoadByDirectoryPath10",
 			fields: fields{
-				name:        "samples",
-				filterNames: nil,
-				extension:   ".csv",
+				name:           "samples",
+				isPartialMatch: false,
+				filterNames:    nil,
+				extension:      ".csv",
 				rows: map[Key]string{
 					{id: 1, key: "id"}:     "1",
 					{id: 1, key: "sample"}: "aaa",
@@ -336,14 +348,37 @@ func TestLoadByDirectoryPath(t *testing.T) {
 			want:    map[Key]string{},
 			wantErr: true,
 		},
+		{
+			name: "LoadByDirectoryPath11",
+			fields: fields{
+				name:           "samples",
+				isPartialMatch: true,
+				filterNames:    nil,
+				extension:      ".csv",
+				rows:           map[Key]string{},
+			},
+			args: args{
+				directoryPath: "./testdata/pattern11",
+			},
+			want: map[Key]string{
+				{id: 2, key: "id"}:       "2",
+				{id: 2, key: "sample"}:   "bbb",
+				{id: 2, key: "level"}:    "43",
+				{id: 100, key: "id"}:     "100",
+				{id: 100, key: "sample"}: "AAA",
+				{id: 100, key: "level"}:  "1000",
+			},
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			m := &MasterData{
-				name:        tt.fields.name,
-				filterNames: tt.fields.filterNames,
-				extension:   tt.fields.extension,
-				Rows:        tt.fields.rows,
+				name:           tt.fields.name,
+				isPartialMatch: tt.fields.isPartialMatch,
+				filterNames:    tt.fields.filterNames,
+				extension:      tt.fields.extension,
+				Rows:           tt.fields.rows,
 			}
 			err := m.LoadByDirectoryPath(tt.args.directoryPath)
 			if (err != nil) != tt.wantErr {

@@ -61,7 +61,7 @@ func (m *MasterData) LoadByDirectoryPath(directoryPath string) error {
 		}
 
 		for _, filePath := range filePaths {
-			if (m.isPartialMatch && strings.HasPrefix(file.BaseFileName(filePath), m.name)) || m.name != file.BaseFileName(filePath) {
+			if (m.isPartialMatch && !strings.HasPrefix(file.BaseFileName(filePath), m.name)) && m.name != file.BaseFileName(filePath) {
 				continue
 			}
 
