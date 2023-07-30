@@ -140,12 +140,12 @@ func (m *MasterData) delete(editMap map[Key]string, filePath string) error {
 	baseIds := PluckId(m.Rows)
 
 	for key := range editMap {
-		if key.key == "id" {
-			if !array.Contains(baseIds, key.id) {
-				return errors.New("Attempted to delete a non-existent ID : id " + strconv.Itoa(key.id) + " " + filePath)
+		if key.Key == "id" {
+			if !array.Contains(baseIds, key.Id) {
+				return errors.New("Attempted to delete a non-existent ID : id " + strconv.Itoa(key.Id) + " " + filePath)
 			}
 		}
-		delete(m.Rows, Key{id: key.id, key: key.key})
+		delete(m.Rows, Key{Id: key.Id, Key: key.Key})
 	}
 
 	return nil
@@ -163,7 +163,7 @@ func (m *MasterData) insert(editMap map[Key]string, filePath string) error {
 	}
 
 	for mapKey, value := range editMap {
-		m.Rows[Key{id: mapKey.id, key: mapKey.key}] = value
+		m.Rows[Key{Id: mapKey.Id, Key: mapKey.Key}] = value
 	}
 
 	return nil

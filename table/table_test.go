@@ -23,9 +23,9 @@ func TestLoadMap(t *testing.T) {
 				filterNames: nil,
 			},
 			want: map[Key]string{
-				{id: 2, key: "id"}:     "2",
-				{id: 2, key: "sample"}: "bbb",
-				{id: 2, key: "level"}:  "43",
+				{Id: 2, Key: "id"}:     "2",
+				{Id: 2, Key: "sample"}: "bbb",
+				{Id: 2, Key: "level"}:  "43",
 			},
 			wantErr: false,
 		},
@@ -57,9 +57,9 @@ func TestPluckId(t *testing.T) {
 			name: "PluckId1",
 			args: args{
 				valueMap: map[Key]string{
-					{id: 1, key: "id"}:     "1",
-					{id: 1, key: "sample"}: "aaa",
-					{id: 1, key: "level"}:  "50",
+					{Id: 1, Key: "id"}:     "1",
+					{Id: 1, Key: "sample"}: "aaa",
+					{Id: 1, Key: "level"}:  "50",
 				},
 			},
 			want: []int{1},
@@ -88,9 +88,9 @@ func TestPluckKey(t *testing.T) {
 			name: "PluckKey1",
 			args: args{
 				valueMap: map[Key]string{
-					{id: 1, key: "id"}:     "1",
-					{id: 1, key: "sample"}: "aaa",
-					{id: 1, key: "level"}:  "50",
+					{Id: 1, Key: "id"}:     "1",
+					{Id: 1, Key: "sample"}: "aaa",
+					{Id: 1, Key: "level"}:  "50",
 				},
 				key: "sample",
 			},

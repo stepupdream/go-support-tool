@@ -11,8 +11,8 @@ import (
 
 // Key Make keys into structures to achieve multidimensional arrays.
 type Key struct {
-	id  int
-	key string
+	Id  int
+	Key string
 }
 
 // LoadMap Load the specified file and convert it to a map.
@@ -77,8 +77,8 @@ func convertMap(rows [][]string, filepath string) (map[Key]string, error) {
 //goland:noinspection GoUnusedExportedFunction
 func PluckId(valueMap map[Key]string) (r []int) {
 	for mapKey := range valueMap {
-		if mapKey.key == "id" {
-			r = append(r, mapKey.id)
+		if mapKey.Key == "id" {
+			r = append(r, mapKey.Id)
 		}
 	}
 
@@ -92,7 +92,7 @@ func PluckId(valueMap map[Key]string) (r []int) {
 //goland:noinspection GoUnusedExportedFunction
 func PluckKey(valueMap map[Key]string, key string) (r []string) {
 	for mapKey, value := range valueMap {
-		if mapKey.key == key {
+		if mapKey.Key == key {
 			r = append(r, value)
 		}
 	}
