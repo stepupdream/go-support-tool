@@ -17,7 +17,6 @@ import (
 type MasterData struct {
 	name           string
 	isPartialMatch bool
-	filterNames    []string
 	extension      string
 	Rows           map[Key]string
 }
@@ -25,13 +24,12 @@ type MasterData struct {
 // NewTabular Create a new MasterData.
 //
 //goland:noinspection GoUnusedExportedFunction
-func NewTabular(name string, filterNames []string, extensionName string, rows map[Key]string, isPartialMatch bool) *MasterData {
+func NewTabular(name string, extensionName string, rows map[Key]string, isPartialMatch bool) *MasterData {
 	extension := "." + extensionName
 
 	return &MasterData{
 		name:           name,
 		isPartialMatch: isPartialMatch,
-		filterNames:    filterNames,
 		extension:      extension,
 		Rows:           rows,
 	}
@@ -66,7 +64,7 @@ func (m *MasterData) LoadByDirectoryPath(directoryPath string) error {
 			}
 
 			var editMap map[Key]string
-			editMap, err = LoadMap(filePath, m.filterNames)
+			editMap, err = LoadMap(filePath)
 			if err != nil {
 				return err
 			}

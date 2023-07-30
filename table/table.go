@@ -5,7 +5,6 @@ import (
 	"strconv"
 
 	"github.com/pkg/errors"
-	"github.com/stepupdream/go-support-tool/array"
 	"github.com/stepupdream/go-support-tool/delimited"
 	supportFile "github.com/stepupdream/go-support-tool/file"
 )
@@ -20,7 +19,7 @@ type Key struct {
 // If the file does not exist, return an empty map.
 //
 //goland:noinspection GoUnusedExportedFunction
-func LoadMap(filePath string, filterNames []string) (map[Key]string, error) {
+func LoadMap(filePath string) (map[Key]string, error) {
 	if !supportFile.Exists(filePath) {
 		return make(map[Key]string), nil
 	}
@@ -30,15 +29,13 @@ func LoadMap(filePath string, filterNames []string) (map[Key]string, error) {
 		return nil, err
 	}
 
-	numbers := filterColumnNumbers(rows[0], filterNames)
-
-	return convertMap(rows, numbers, filePath)
+	return convertMap(rows, filePath)
 }
 
 // convertMap
 // Replacing separated value data (two-dimensional array of height and width) into a multidimensional associative array in a format
 // that facilitates direct value specification by key.
-func convertMap(rows [][]string, filterColumnNumbers []int, filepath string) (map[Key]string, error) {
+func convertMap(rows [][]string, filepath string) (map[Key]string, error) {
 	convertedData := make(map[Key]string)
 	keyName := map[int]string{}
 	findIdColumn := false
@@ -53,10 +50,6 @@ func convertMap(rows [][]string, filterColumnNumbers []int, filepath string) (ma
 					idColumnNumber = columnNumber
 				}
 				keyName[columnNumber] = value
-				continue
-			}
-
-			if len(filterColumnNumbers) != 0 && !array.Contains(filterColumnNumbers, columnNumber) {
 				continue
 			}
 
@@ -101,17 +94,6 @@ func PluckKey(valueMap map[Key]string, key string) (r []string) {
 	for mapKey, value := range valueMap {
 		if mapKey.key == key {
 			r = append(r, value)
-		}
-	}
-
-	return r
-}
-
-// filterColumnNumbers Get the column number of the column to filter.
-func filterColumnNumbers(filterRows []string, filterColumnNames []string) (r []int) {
-	for columnNumber, columnName := range filterRows {
-		if array.Contains(filterColumnNames, columnName) {
-			r = append(r, columnNumber)
 		}
 	}
 

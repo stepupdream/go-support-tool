@@ -29,22 +29,10 @@ func TestLoadMap(t *testing.T) {
 			},
 			wantErr: false,
 		},
-		{
-			name: "LoadMap2",
-			args: args{
-				filePath:    "./testdata/sample.csv",
-				filterNames: []string{"id", "sample"},
-			},
-			want: map[Key]string{
-				{id: 2, key: "id"}:     "2",
-				{id: 2, key: "sample"}: "bbb",
-			},
-			wantErr: false,
-		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := LoadMap(tt.args.filePath, tt.args.filterNames)
+			got, err := LoadMap(tt.args.filePath)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("LoadMap() error = %v, wantErr %v", err, tt.wantErr)
 				return
