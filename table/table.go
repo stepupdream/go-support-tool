@@ -53,10 +53,12 @@ func convertMap(rows [][]string, filepath string) (map[Key]string, error) {
 				continue
 			}
 
-			id, _ := strconv.Atoi(row[idColumnNumber])
+			id, err := strconv.Atoi(row[idColumnNumber])
+			if err != nil {
+				return nil, errors.New("ID is not numeric : " + filepath)
+			}
 			if _, flg := convertedData[Key{id, keyName[columnNumber]}]; flg {
 				return nil, errors.New("Duplicate key : " + filepath + " rowNumber : " + strconv.Itoa(rowNumber))
-
 			}
 			if value == "" {
 				return nil, errors.New("Empty value : " + filepath + " rowNumber : " + strconv.Itoa(rowNumber))
