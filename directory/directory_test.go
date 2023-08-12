@@ -263,3 +263,75 @@ func TestGetFilePath(t *testing.T) {
 		})
 	}
 }
+
+func TestFindPrevious(t *testing.T) {
+	type args struct {
+		arr   []string
+		value string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    string
+		wantErr bool
+	}{
+		{
+			name: "FindPrevious1",
+			args: args{
+
+				arr:   []string{"1_0_0_0", "1_0_1_0", "1_0_2_0"},
+				value: "1_0_1_0",
+			},
+			want:    "1_0_1_0",
+			wantErr: false,
+		},
+		{
+			name: "FindPrevious2",
+			args: args{
+				arr:   []string{"1_0_0_0", "1_0_1_0", "1_0_2_0"},
+				value: "1_0_0_1",
+			},
+			want:    "1_0_0_0",
+			wantErr: false,
+		},
+		{
+			name: "FindPrevious2",
+			args: args{
+				arr:   []string{"1_0_0_0", "1_0_2_1", "1_0_0_1", "1_0_1_0", "1_0_2_0"},
+				value: "1_0_0_0_1",
+			},
+			want:    "1_0_0_0",
+			wantErr: false,
+		},
+		{
+			name: "FindPrevious2",
+			args: args{
+				arr:   []string{"1_0_0_0", "1_0_2_1", "1_0_0_1", "1_0_1_0", "1_0_2_0"},
+				value: "1_5_0_0_1",
+			},
+			want:    "1_0_2_1",
+			wantErr: false,
+		},
+		{
+			name: "FindPrevious2",
+			args: args{
+				arr:   []string{"1_0_0_0", "1_0_2_1", "1_0_0_1", "1_0_1_0", "1_0_2_0"},
+				value: "0_1_1_1",
+			},
+			want:    "",
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := FindPrevious(tt.args.arr, tt.args.value)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("FindPrevious() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if got != tt.want {
+				t.Errorf("FindPrevious() got = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
