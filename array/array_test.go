@@ -86,38 +86,56 @@ func TestNextArrayValue(t *testing.T) {
 		nowValue  string
 	}
 	tests := []struct {
-		name string
-		args args
-		want string
+		name    string
+		args    args
+		want    string
+		wantErr bool
 	}{
 		{
 			name: "test1",
 			args: args{
 				allValues: []string{"a", "b", "c", "d"},
-				nowValue:  "b",
+				nowValue:  "c",
 			},
-			want: "c",
+			want:    "",
+			wantErr: true,
 		},
 		{
 			name: "test2",
 			args: args{
-				allValues: []string{"a", "b", "c", "d"},
-				nowValue:  "d",
+				allValues: []string{"1_0_0_0", "1_0_1_0_0", "1_0_0_2", "1_0_1_3", "1_0_0_0_0_1"},
+				nowValue:  "1_0_0_0_0_1",
 			},
-			want: "",
+			want:    "1_0_0_2",
+			wantErr: false,
 		},
 		{
 			name: "test3",
 			args: args{
-				allValues: []string{"1_0_0_0", "1_0_1_0_0", "1_0_0_2", "1_0_1_3", "1_0_0_0_0_1"},
-				nowValue:  "1_0_0_0_0_1",
+				allValues: []string{"11_0_0_0", "21_0_11_0_0", "21_0_0_12", "11_0_11_13", "11_0_0_0_0_11"},
+				nowValue:  "11_0_11_13",
 			},
-			want: "1_0_0_2",
+			want:    "21_0_0_12",
+			wantErr: false,
+		},
+		{
+			name: "test4",
+			args: args{
+				allValues: []string{"1_0_0_0", "1_0_1_0_0", "1_0_0_2"},
+				nowValue:  "1_0_1_0_0",
+			},
+			want:    "",
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got, _ := NextArrayValue(tt.args.allValues, tt.args.nowValue); got != tt.want {
+			got, err := NextArrayValue(tt.args.allValues, tt.args.nowValue)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("NextArrayValue() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("NextArrayValue() = %v, want %v", got, tt.want)
 			}
 		})

@@ -295,7 +295,7 @@ func TestFindPrevious(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "FindPrevious2",
+			name: "FindPrevious3",
 			args: args{
 				arr:   []string{"1_0_0_0", "1_0_2_1", "1_0_0_1", "1_0_1_0", "1_0_2_0"},
 				value: "1_0_0_0_1",
@@ -304,7 +304,7 @@ func TestFindPrevious(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "FindPrevious2",
+			name: "FindPrevious4",
 			args: args{
 				arr:   []string{"1_0_0_0", "1_0_2_1", "1_0_0_1", "1_0_1_0", "1_0_2_0"},
 				value: "1_5_0_0_1",
@@ -313,13 +313,22 @@ func TestFindPrevious(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "FindPrevious2",
+			name: "FindPrevious5",
 			args: args{
 				arr:   []string{"1_0_0_0", "1_0_2_1", "1_0_0_1", "1_0_1_0", "1_0_2_0"},
 				value: "0_1_1_1",
 			},
 			want:    "",
 			wantErr: true,
+		},
+		{
+			name: "FindPrevious6",
+			args: args{
+				arr:   []string{"11_0_0_0", "1_0_12_1", "1_0_0_11", "11_0_1_0", "1_0_12_0"},
+				value: "1_15_0_0_1",
+			},
+			want:    "1_0_12_1",
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
