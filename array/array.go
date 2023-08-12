@@ -2,6 +2,7 @@ package array
 
 import (
 	"github.com/pkg/errors"
+	"github.com/stepupdream/go-support-tool/name"
 )
 
 // Contains checks if the specified value exists in the slice.
@@ -50,18 +51,20 @@ func NextArrayValue(allValues []string, nowValue string) (string, error) {
 		return "", errors.New("Incorrect value specified. The specified value does not exist in the array : " + nowValue)
 	}
 
+	allValuesSorted := name.CompareByNumericSegments(allValues)
+
 	var nowKey int
-	for key, value := range allValues {
+	for key, value := range allValuesSorted {
 		if value == nowValue {
 			nowKey = key
 		}
 	}
 
-	if len(allValues) < nowKey+2 {
+	if len(allValuesSorted) < nowKey+2 {
 		return "", nil
 	}
 
-	return allValues[nowKey+1], nil
+	return allValuesSorted[nowKey+1], nil
 }
 
 // SliceString returns a slice of the specified array.

@@ -106,6 +106,14 @@ func TestNextArrayValue(t *testing.T) {
 			},
 			want: "",
 		},
+		{
+			name: "test3",
+			args: args{
+				allValues: []string{"1_0_0_0", "1_0_1_0_0", "1_0_0_2", "1_0_1_3", "1_0_0_0_0_1"},
+				nowValue:  "1_0_0_0_0_1",
+			},
+			want: "1_0_0_2",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
