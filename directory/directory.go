@@ -158,7 +158,10 @@ func FindPrevious(arr []string, value string) (string, error) {
 		return value, nil
 	}
 
-	arr = name.CompareByNumericSegments(append(arr, value))
+	arr, e := name.CompareByNumericSegments(append(arr, value))
+	if e != nil {
+		return "", e
+	}
 
 	for i, current := range arr {
 		if current == value {

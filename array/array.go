@@ -51,7 +51,10 @@ func NextArrayValue(allValues []string, nowValue string) (string, error) {
 		return "", errors.New("Incorrect value specified. The specified value does not exist in the array : " + nowValue)
 	}
 
-	allValuesSorted := name.CompareByNumericSegments(allValues)
+	allValuesSorted, e := name.CompareByNumericSegments(allValues)
+	if e != nil {
+		return "", e
+	}
 
 	var nowKey int
 	for key, value := range allValuesSorted {
