@@ -59,9 +59,6 @@ func ExistMulti(parentPaths []string) (r bool) {
 // MaxFileName returns the file name with the largest value in the specified directory.
 func MaxFileName(directoryPath string) (r string, err error) {
 	dirEntries, err := os.ReadDir(directoryPath)
-	if len(dirEntries) == 0 {
-		return "", errors.New("no files in the directory: " + directoryPath)
-	}
 
 	for _, dirEntry := range dirEntries {
 		if r == "" {
@@ -83,10 +80,6 @@ func MaxVersion(directoryPath string) (r string, err error) {
 
 	for _, dirEntry := range dirEntries {
 		names = append(names, dirEntry.Name())
-	}
-
-	if len(names) == 0 {
-		return "", errors.New("no files in the directory: " + directoryPath)
 	}
 
 	namesSorted, err := name.CompareByNumericSegments(names)
