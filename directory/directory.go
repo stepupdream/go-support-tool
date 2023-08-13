@@ -82,6 +82,10 @@ func MaxVersion(directoryPath string) (r string, err error) {
 		names = append(names, dirEntry.Name())
 	}
 
+	if len(names) == 0 {
+		return r, nil
+	}
+
 	namesSorted, err := name.CompareByNumericSegments(names)
 
 	return namesSorted[len(namesSorted)-1], nil
