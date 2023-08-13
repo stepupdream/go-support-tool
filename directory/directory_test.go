@@ -53,12 +53,15 @@ func TestMaxFileName(t *testing.T) {
 			args: args{
 				directoryPath: "../directory/testdata",
 			},
-			want: "1_0_1_0",
+			want: "1_1_0_0_1",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := MaxFileName(tt.args.directoryPath); got != tt.want {
+			if got, _ := MaxFileName(tt.args.directoryPath); got != tt.want {
+				t.Errorf("MaxFileName() = %v, want %v", got, tt.want)
+			}
+			if got, _ := MaxVersion(tt.args.directoryPath); got != tt.want {
 				t.Errorf("MaxFileName() = %v, want %v", got, tt.want)
 			}
 		})
@@ -81,7 +84,7 @@ func TestGetNames(t *testing.T) {
 				path:           "../directory/testdata",
 				exclusionTexts: []string{},
 			},
-			want: []string{"1_0_0_0", "1_0_1_0"},
+			want: []string{"1_0_0_0", "1_0_11_0", "1_0_1_0", "1_1_0_0_1"},
 		},
 		{
 			name: "GetNames2",
@@ -89,7 +92,7 @@ func TestGetNames(t *testing.T) {
 				path:           "../directory/testdata",
 				exclusionTexts: []string{"1_0_1_0"},
 			},
-			want: []string{"1_0_0_0"},
+			want: []string{"1_0_0_0", "1_0_11_0", "1_1_0_0_1"},
 		},
 	}
 	for _, tt := range tests {
@@ -164,7 +167,9 @@ func TestGetFilePathRecursive(t *testing.T) {
 			want: []string{
 				".." + pathSeparator + "directory" + pathSeparator + "testdata" + pathSeparator + "1_0_0_0" + pathSeparator + ".gitkeep",
 				".." + pathSeparator + "directory" + pathSeparator + "testdata" + pathSeparator + "1_0_0_0" + pathSeparator + "test.txt",
+				".." + pathSeparator + "directory" + pathSeparator + "testdata" + pathSeparator + "1_0_11_0" + pathSeparator + ".gitkeep",
 				".." + pathSeparator + "directory" + pathSeparator + "testdata" + pathSeparator + "1_0_1_0" + pathSeparator + ".gitkeep",
+				".." + pathSeparator + "directory" + pathSeparator + "testdata" + pathSeparator + "1_1_0_0_1" + pathSeparator + ".gitkeep",
 			},
 			wantErr: false,
 		},
@@ -176,7 +181,9 @@ func TestGetFilePathRecursive(t *testing.T) {
 			},
 			want: []string{
 				".." + pathSeparator + "directory" + pathSeparator + "testdata" + pathSeparator + "1_0_0_0" + pathSeparator + ".gitkeep",
+				".." + pathSeparator + "directory" + pathSeparator + "testdata" + pathSeparator + "1_0_11_0" + pathSeparator + ".gitkeep",
 				".." + pathSeparator + "directory" + pathSeparator + "testdata" + pathSeparator + "1_0_1_0" + pathSeparator + ".gitkeep",
+				".." + pathSeparator + "directory" + pathSeparator + "testdata" + pathSeparator + "1_1_0_0_1" + pathSeparator + ".gitkeep",
 			},
 			wantErr: false,
 		},

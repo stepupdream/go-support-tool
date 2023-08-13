@@ -8,54 +8,75 @@ import (
 	"strings"
 )
 
-// CompareByNumericSegments The function compareByNumericSegments receives a slice of strings and sorts them by the numeric values within the strings.
 func CompareByNumericSegments(versionNames []string) ([]string, error) {
-	for _, versionName := range versionNames {
-		if err := checkVersion(versionName); err != nil {
-			return []string{}, err
-		}
+	if err := checkVersions(versionNames); err != nil {
+		return []string{}, err
 	}
 
 	sort.Slice(versionNames, func(i, j int) bool {
-		segments1 := strings.Split(versionNames[i], "_")
-		segments2 := strings.Split(versionNames[j], "_")
+		nums1 := getNumericSegments(versionNames[i])
+		nums2 := getNumericSegments(versionNames[j])
 
-		maxLen := len(segments1)
-		if len(segments2) > maxLen {
-			maxLen = len(segments2)
-		}
-
-		for k := 0; k < maxLen; k++ {
-			var num1, num2 int
-
-			if k >= len(segments1) {
-				num1 = 0
-			} else {
-				num1, _ = strconv.Atoi(segments1[k])
-			}
-
-			if k >= len(segments2) {
-				num2 = 0
-			} else {
-				num2, _ = strconv.Atoi(segments2[k])
-			}
-
+		for k := 0; k < len(nums1) || k < len(nums2); k++ {
+			num1, num2 := getSegmentNumbers(nums1, nums2, k)
 			if num1 != num2 {
 				return num1 < num2
 			}
 		}
-
-		return len(segments1) < len(segments2)
+		return len(nums1) < len(nums2)
 	})
 
 	return versionNames, nil
 }
 
-func checkVersion(version string) error {
-	re := regexp.MustCompile(`^(\d+(_\d+)*$)`)
-	if !re.MatchString(version) {
-		return errors.New("Invalid version format")
+func IsGreaterVersion(referenceVersion string, comparisonVersion string) (bool, error) {
+	if err := checkVersions([]string{referenceVersion, comparisonVersion}); err != nil {
+		return false, err
 	}
 
+	v1Segments := getNumericSegments(referenceVersion)
+	v2Segments := getNumericSegments(comparisonVersion)
+
+	for i := 0; i < len(v1Segments) || i < len(v2Segments); i++ {
+		num1, num2 := getSegmentNumbers(v1Segments, v2Segments, i)
+
+		if num1 < num2 {
+			return false, nil
+		}
+		if num1 > num2 {
+			return true, nil
+		}
+	}
+
+	return len(v1Segments) > len(v2Segments), nil
+}
+
+func checkVersions(versions []string) error {
+	re := regexp.MustCompile(`^(\d+(_\d+)*$)`)
+	for _, version := range versions {
+		if !re.MatchString(version) {
+			return errors.New("Invalid version format")
+		}
+	}
 	return nil
+}
+
+func getNumericSegments(version string) []int {
+	segments := strings.Split(version, "_")
+	nums := make([]int, len(segments))
+	for i, segment := range segments {
+		nums[i], _ = strconv.Atoi(segment)
+	}
+	return nums
+}
+
+func getSegmentNumbers(nums1, nums2 []int, index int) (int, int) {
+	num1, num2 := 0, 0
+	if index < len(nums1) {
+		num1 = nums1[index]
+	}
+	if index < len(nums2) {
+		num2 = nums2[index]
+	}
+	return num1, num2
 }

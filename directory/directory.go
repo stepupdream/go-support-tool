@@ -36,9 +36,9 @@ func GetNames(path string, exclusionTexts []string) (result []string, err error)
 		return nil, err
 	}
 
-	for _, name := range names {
-		if !array.Contains(exclusionTexts, name) {
-			result = append(result, name)
+	for _, n := range names {
+		if !array.Contains(exclusionTexts, n) {
+			result = append(result, n)
 		}
 	}
 
@@ -57,8 +57,12 @@ func ExistMulti(parentPaths []string) (r bool) {
 }
 
 // MaxFileName returns the file name with the largest value in the specified directory.
-func MaxFileName(directoryPath string) (r string) {
-	dirEntries, _ := os.ReadDir(directoryPath)
+func MaxFileName(directoryPath string) (r string, err error) {
+	dirEntries, err := os.ReadDir(directoryPath)
+	if len(dirEntries) == 0 {
+		return "", errors.New("no files in the directory: " + directoryPath)
+	}
+
 	for _, dirEntry := range dirEntries {
 		if r == "" {
 			r = dirEntry.Name()
@@ -70,7 +74,24 @@ func MaxFileName(directoryPath string) (r string) {
 		}
 	}
 
-	return r
+	return r, nil
+}
+
+func MaxVersion(directoryPath string) (r string, err error) {
+	dirEntries, err := os.ReadDir(directoryPath)
+	var names []string
+
+	for _, dirEntry := range dirEntries {
+		names = append(names, dirEntry.Name())
+	}
+
+	if len(names) == 0 {
+		return "", errors.New("no files in the directory: " + directoryPath)
+	}
+
+	namesSorted, err := name.CompareByNumericSegments(names)
+
+	return namesSorted[len(namesSorted)-1], nil
 }
 
 // GetFilePathRecursive returns the path of the file in the specified directory.
