@@ -7,6 +7,7 @@ import (
 )
 
 func TestExistMulti(t *testing.T) {
+	p := string(os.PathSeparator)
 	type args struct {
 		parentPaths []string
 	}
@@ -18,14 +19,14 @@ func TestExistMulti(t *testing.T) {
 		{
 			name: "ExistMulti",
 			args: args{
-				parentPaths: []string{"../directory", "../excel"},
+				parentPaths: []string{".." + p + "directory", ".." + p + "excel"},
 			},
 			want: true,
 		},
 		{
-			name: "ExistMult2",
+			name: "ExistMulti2",
 			args: args{
-				parentPaths: []string{"../directory", "../blank"},
+				parentPaths: []string{".." + p + "directory", ".." + p + "blank"},
 			},
 			want: true,
 		},
@@ -40,6 +41,7 @@ func TestExistMulti(t *testing.T) {
 }
 
 func TestMaxFileName(t *testing.T) {
+	p := string(os.PathSeparator)
 	type args struct {
 		directoryPath string
 	}
@@ -49,9 +51,16 @@ func TestMaxFileName(t *testing.T) {
 		want string
 	}{
 		{
-			name: "MaxFileName",
+			name: "MaxFileName1",
 			args: args{
-				directoryPath: "../directory/testdata",
+				directoryPath: ".." + p + "directory" + p + "testdata",
+			},
+			want: "1_1_0_0_1",
+		},
+		{
+			name: "MaxFileName2",
+			args: args{
+				directoryPath: ".." + p + "directory" + p + "testdata",
 			},
 			want: "1_1_0_0_1",
 		},
@@ -69,6 +78,7 @@ func TestMaxFileName(t *testing.T) {
 }
 
 func TestGetNames(t *testing.T) {
+	p := string(os.PathSeparator)
 	type args struct {
 		path           string
 		exclusionTexts []string
@@ -81,7 +91,7 @@ func TestGetNames(t *testing.T) {
 		{
 			name: "GetNames1",
 			args: args{
-				path:           "../directory/testdata",
+				path:           ".." + p + "directory" + p + "testdata",
 				exclusionTexts: []string{},
 			},
 			want: []string{"1_0_0_0", "1_0_11_0", "1_0_1_0", "1_1_0_0_1"},
@@ -89,7 +99,7 @@ func TestGetNames(t *testing.T) {
 		{
 			name: "GetNames2",
 			args: args{
-				path:           "../directory/testdata",
+				path:           ".." + p + "directory" + p + "testdata",
 				exclusionTexts: []string{"1_0_1_0"},
 			},
 			want: []string{"1_0_0_0", "1_0_11_0", "1_1_0_0_1"},
@@ -105,6 +115,7 @@ func TestGetNames(t *testing.T) {
 }
 
 func TestExist(t *testing.T) {
+	p := string(os.PathSeparator)
 	type args struct {
 		path string
 	}
@@ -116,14 +127,14 @@ func TestExist(t *testing.T) {
 		{
 			name: "Exist1",
 			args: args{
-				path: "../directory/testdata",
+				path: ".." + p + "directory" + p + "testdata",
 			},
 			want: true,
 		},
 		{
 			name: "Exist2",
 			args: args{
-				path: "../directory/test2",
+				path: ".." + p + "directory" + p + "test2",
 			},
 			want: false,
 		},
