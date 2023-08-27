@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func CompareByNumericSegments(versionNames []string) ([]string, error) {
+func SortByNumericSegments(versionNames []string) ([]string, error) {
 	if err := checkVersions(versionNames); err != nil {
 		return []string{}, err
 	}

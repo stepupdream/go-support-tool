@@ -34,13 +34,13 @@ func TestCompareByNumericSegments(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := CompareByNumericSegments(tt.args.versionNames)
+			got, err := SortByNumericSegments(tt.args.versionNames)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("CompareByNumericSegments() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("SortByNumericSegments() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("CompareByNumericSegments() got = %v, want %v", got, tt.want)
+				t.Errorf("SortByNumericSegments() got = %v, want %v", got, tt.want)
 			}
 		})
 	}

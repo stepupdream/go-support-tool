@@ -86,7 +86,7 @@ func MaxVersion(directoryPath string) (r string, err error) {
 		return r, nil
 	}
 
-	namesSorted, err := name.CompareByNumericSegments(names)
+	namesSorted, err := name.SortByNumericSegments(names)
 
 	return namesSorted[len(namesSorted)-1], nil
 }
@@ -176,7 +176,7 @@ func FindPrevious(arr []string, value string) (string, error) {
 		return value, nil
 	}
 
-	arr, e := name.CompareByNumericSegments(append(arr, value))
+	arr, e := name.SortByNumericSegments(append(arr, value))
 	if e != nil {
 		return "", e
 	}
